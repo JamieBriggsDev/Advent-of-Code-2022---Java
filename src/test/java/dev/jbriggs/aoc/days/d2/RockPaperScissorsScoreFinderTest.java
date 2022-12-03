@@ -17,12 +17,12 @@ class RockPaperScissorsScoreFinderTest {
   class drawTests{
     @Test
     @DisplayName("Should return 3 for draw with rock")
-    public void shouldReturn3ForDrawWithRock(){
+    void shouldReturn3ForDrawWithRock(){
       // Given
-      RPSEnum opponent = RPSEnum.ROCK;
       RPSEnum me = RPSEnum.ROCK;
+      RPSEnum opponent = RPSEnum.ROCK;
       // When
-      long result = finder.getScore(opponent, me);
+      long result = finder.getScore(me, opponent);
       // Then
       assertThat("Result should be 3 for draw", result, is(3L));
     }
@@ -31,24 +31,104 @@ class RockPaperScissorsScoreFinderTest {
     @DisplayName("Should return 3 for draw with paper")
     public void shouldReturn3ForDrawWithPaper(){
       // Given
-      RPSEnum opponent = RPSEnum.PAPER;
       RPSEnum me = RPSEnum.PAPER;
+      RPSEnum opponent = RPSEnum.PAPER;
       // When
-      long result = finder.getScore(opponent, me);
+      long result = finder.getScore(me, opponent);
       // Then
       assertThat("Result should be 3 for draw", result, is(3L));
     }
 
     @Test
     @DisplayName("Should return 3 for draw with scissors")
-    public void shouldReturn3ForDrawWithScissors(){
+    void shouldReturn3ForDrawWithScissors(){
       // Given
-      RPSEnum opponent = RPSEnum.SCISSORS;
       RPSEnum me = RPSEnum.SCISSORS;
+      RPSEnum opponent = RPSEnum.SCISSORS;
       // When
-      long result = finder.getScore(opponent, me);
+      long result = finder.getScore(me, opponent);
       // Then
       assertThat("Result should be 3 for draw", result, is(3L));
+    }
+  }
+
+  @Nested
+  @DisplayName("Win tests")
+  class winTests{
+    @Test
+    @DisplayName("Should return 6 for rock beating scissors")
+    void shouldReturn6ForRockBeatingScissors(){
+      // Given
+      RPSEnum me = RPSEnum.ROCK;
+      RPSEnum opponent = RPSEnum.SCISSORS;
+      // When
+      long result = finder.getScore(me, opponent);
+      // Then
+      assertThat("Result should be 6 for win", result, is(6L));
+    }
+
+    @Test
+    @DisplayName("Should return 6 for paper beating rock")
+    void shouldReturn6ForPaperBeatingRock(){
+      // Given
+      RPSEnum me = RPSEnum.PAPER;
+      RPSEnum opponent = RPSEnum.ROCK;
+      // When
+      long result = finder.getScore(me, opponent);
+      // Then
+      assertThat("Result should be 6 for win", result, is(6L));
+    }
+
+    @Test
+    @DisplayName("Should return 6 for scissors beating paper")
+    void shouldReturn6FoScissorsBeatingPaper(){
+      // Given
+      RPSEnum me = RPSEnum.SCISSORS;
+      RPSEnum opponent = RPSEnum.PAPER;
+      // When
+      long result = finder.getScore(me, opponent);
+      // Then
+      assertThat("Result should be 6 for win", result, is(6L));
+    }
+  }
+
+  @Nested
+  @DisplayName("Loses tests")
+  class losesTests{
+    @Test
+    @DisplayName("Should return 0 for rock losing against paper")
+    void shouldReturn6ForRockBeatingScissors(){
+      // Given
+      RPSEnum me = RPSEnum.ROCK;
+      RPSEnum opponent = RPSEnum.PAPER;
+      // When
+      long result = finder.getScore(me, opponent);
+      // Then
+      assertThat("Result should be for loss", result, is(0L));
+    }
+
+    @Test
+    @DisplayName("Should return 0 for paper losing against scissors")
+    void shouldReturn6ForPaperLosingAgainstScissors(){
+      // Given
+      RPSEnum me = RPSEnum.PAPER;
+      RPSEnum opponent = RPSEnum.SCISSORS;
+      // When
+      long result = finder.getScore(me, opponent);
+      // Then
+      assertThat("Result should be for loss", result, is(0L));
+    }
+
+    @Test
+    @DisplayName("Should return 0 for scisssors losing against rock")
+    void shouldReturn6ForScissorsLosingAgainstRock(){
+      // Given
+      RPSEnum me = RPSEnum.SCISSORS;
+      RPSEnum opponent = RPSEnum.ROCK;
+      // When
+      long result = finder.getScore(me, opponent);
+      // Then
+      assertThat("Result should be for loss", result, is(0L));
     }
   }
 

@@ -4,20 +4,18 @@ import dev.jbriggs.aoc.util.PuzzleInputParser;
 import java.util.Arrays;
 import java.util.List;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
 @Data
 public abstract class Day {
 
-  public Day(PuzzleInputParser puzzleInputParser) {
+  public Day(PuzzleInputParser puzzleInputParser, String inputPath) {
     this.puzzleInputParser = puzzleInputParser;
-    this.input = puzzleInputParser.getPuzzleInputFromFile(getInputPath());
+    this.input = puzzleInputParser.getPuzzleInputFromFile(inputPath);
   }
 
   private final PuzzleInputParser puzzleInputParser;
-
   private final String[] input;
-
-  public abstract String[] getInput();
 
   protected abstract String partOne(List<String> input);
 
@@ -25,10 +23,8 @@ public abstract class Day {
 
   public abstract Integer getDayNumber();
 
-  public abstract String getInputPath();
-
-  public boolean skip(){
-    return false;
+  public String[] getInput(){
+    return this.input;
   }
 
   public String partOneAnswer(){

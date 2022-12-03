@@ -5,23 +5,19 @@ import dev.jbriggs.aoc.util.ArrayEmptySplitter;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import java.util.Comparator;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Solution extends Day {
+public class Day1Solution extends Day {
 
   private final CalorieCounter calorieCounter;
   private final ArrayEmptySplitter arrayEmptySplitter;
 
-  public Solution(PuzzleInputParser puzzleInputParser) {
-    super(puzzleInputParser);
+  public Day1Solution(PuzzleInputParser puzzleInputParser, @Value("${solutions.day.1.input}") String inputPath) {
+    super(puzzleInputParser, inputPath);
     calorieCounter = new CalorieCounter();
     arrayEmptySplitter = new ArrayEmptySplitter();
-  }
-
-  @Override
-  public String[] getInput() {
-    return getPuzzleInputParser().getPuzzleInputFromFile(getInputPath());
   }
 
   @Override
@@ -48,10 +44,5 @@ public class Solution extends Day {
   @Override
   public Integer getDayNumber() {
     return 1;
-  }
-
-  @Override
-  public String getInputPath() {
-    return "inputdata/day1/input.txt";
   }
 }
