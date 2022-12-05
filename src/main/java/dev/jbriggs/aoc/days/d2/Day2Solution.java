@@ -13,7 +13,7 @@ public class Day2Solution extends Day {
 
   public Day2Solution(PuzzleInputParser puzzleInputParser,
       @Value("${solutions.day.2.input}") String inputPath) {
-    super(puzzleInputParser, inputPath);
+    super(2, puzzleInputParser, inputPath);
     rockPaperScissorsScoreFinder = new RockPaperScissorsScoreFinder();
   }
 
@@ -49,8 +49,4 @@ public class Day2Solution extends Day {
         .sum());
   }
 
-  @Override
-  public Integer getDayNumber() {
-    return 2;
-  }
 }

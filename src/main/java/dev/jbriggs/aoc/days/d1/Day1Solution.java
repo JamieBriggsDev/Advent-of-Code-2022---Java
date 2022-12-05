@@ -15,7 +15,7 @@ public class Day1Solution extends Day {
   private final ArrayEmptySplitter arrayEmptySplitter;
 
   public Day1Solution(PuzzleInputParser puzzleInputParser, @Value("${solutions.day.1.input}") String inputPath) {
-    super(puzzleInputParser, inputPath);
+    super(1, puzzleInputParser, inputPath);
     calorieCounter = new CalorieCounter();
     arrayEmptySplitter = new ArrayEmptySplitter();
   }
@@ -41,8 +41,4 @@ public class Day1Solution extends Day {
     return String.valueOf(longs.get(0) + longs.get(1) + longs.get(2));
   }
 
-  @Override
-  public Integer getDayNumber() {
-    return 1;
-  }
 }

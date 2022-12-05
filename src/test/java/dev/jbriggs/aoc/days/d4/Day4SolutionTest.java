@@ -1,4 +1,4 @@
-package dev.jbriggs.aoc.days.d2;
+package dev.jbriggs.aoc.days.d4;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -8,35 +8,35 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Day 2 Solution Test")
-class Day2SolutionTest {
-
+@DisplayName("Day 4 Solution Test")
+class Day4SolutionTest {
   private PuzzleInputParser puzzleInputParser;
-  private Day2Solution solution;
+  private Day4Solution solution;
 
   @BeforeEach
   public void beforeEach(){
     puzzleInputParser = new PuzzleInputParser();
-    solution = new Day2Solution(puzzleInputParser, "testdata/day2/input.txt");
+    solution = new Day4Solution(puzzleInputParser, "testdata/day4/input.txt");
   }
 
   @Test
-  @DisplayName("Should get correct answer for part one")
-  void shouldGetCorrectAnswerForPartOneWithTestInput(){
+  @DisplayName("Should return correct answer for part one")
+  void shouldReturnCorrectAnswerForPartOne() {
     // Given
     // When
     String result = solution.partOneAnswer();
     // Then
-    assertThat(result, is("15"));
+    assertThat(result, is("2"));
   }
 
   @Test
-  @DisplayName("Should get correct answer for part two")
-  void shouldGetCorrectAnswerForPartTwoWithTestInput(){
+  @DisplayName("Should return correct answer for part two")
+  void shouldReturnCorrectAnswerForPartTwo() {
     // Given
     // When
     String result = solution.partTwoAnswer();
     // Then
-    assertThat(result, is("12"));
+    assertThat(result, is("4"));
   }
+
 }
