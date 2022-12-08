@@ -1,4 +1,4 @@
-package dev.jbriggs.aoc.days.d6;
+package dev.jbriggs.aoc.handheld;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -8,14 +8,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Handheld device test")
-class HandheldDeviceTest {
+@DisplayName("Device test")
+class DeviceTest {
 
-  HandheldDevice handheldDevice;
+  Device device;
 
   @BeforeEach
   public void beforeEach() {
-    handheldDevice = new HandheldDevice();
+    device = new Device(null);
   }
 
   @Nested
@@ -28,7 +28,7 @@ class HandheldDeviceTest {
       // Given
       String input = "abcd";
       // When
-      int result = handheldDevice.findMarkerPosition(input, 4);
+      int result = device.findMarkerPosition(input, 4);
       // Then
       assertThat("Marker should be on character 4", result, is(4));
     }
@@ -39,7 +39,7 @@ class HandheldDeviceTest {
       // Given
       String input = "aacde";
       // When
-      int result = handheldDevice.findMarkerPosition(input, 4);
+      int result = device.findMarkerPosition(input, 4);
       // Then
       assertThat("Marker should be on character 5", result, is(5));
     }
@@ -50,7 +50,7 @@ class HandheldDeviceTest {
       // Given
       String input = "abcde";
       // When
-      int result = handheldDevice.findMarkerPosition(input, 4);
+      int result = device.findMarkerPosition(input, 4);
       // Then
       assertThat("Marker should be on character 4", result, is(4));
     }
@@ -61,7 +61,7 @@ class HandheldDeviceTest {
       // Given
       String input = "nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg";
       // When
-      int result = handheldDevice.findMarkerPosition(input, 4);
+      int result = device.findMarkerPosition(input, 4);
       // Then
       assertThat("Marker should be on character 10", result, is(10));
     }
@@ -77,7 +77,7 @@ class HandheldDeviceTest {
       // Given
       String input = "abcdefghijklmn";
       // When
-      int result = handheldDevice.findMarkerPosition(input, 14);
+      int result = device.findMarkerPosition(input, 14);
       // Then
       assertThat("Marker should be on character 14", result, is(14));
     }
@@ -88,7 +88,7 @@ class HandheldDeviceTest {
       // Given
       String input = "aabcdefghijklmn";
       // When
-      int result = handheldDevice.findMarkerPosition(input, 15);
+      int result = device.findMarkerPosition(input, 15);
       // Then
       assertThat("Marker should be on character 15", result, is(15));
     }

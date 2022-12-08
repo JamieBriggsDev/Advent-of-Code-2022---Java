@@ -3,6 +3,7 @@ package dev.jbriggs.aoc.days.d6;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import dev.jbriggs.aoc.handheld.Device;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,13 +13,13 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Day 6 solution test")
 class Day6SolutionTest {
 
-  private HandheldDevice handheldDevice;
+  private Device device;
   private PuzzleInputParser puzzleInputParser;
   private Day6Solution solution;
 
   @BeforeEach
   public void beforeEach() {
-    handheldDevice = new HandheldDevice();
+    device = new Device(null);
     puzzleInputParser = new PuzzleInputParser();
   }
 
@@ -32,7 +33,7 @@ class Day6SolutionTest {
     void shouldReturn5ForTestInput1() {
       // Given
       solution = new Day6Solution(puzzleInputParser, "testdata/day6/input1.txt",
-          handheldDevice);
+          device);
       // When
       String result = solution.partOneAnswer();
       // Then
@@ -44,7 +45,7 @@ class Day6SolutionTest {
     void shouldReturn6ForTestInput2() {
       // Given
       solution = new Day6Solution(puzzleInputParser, "testdata/day6/input2.txt",
-          handheldDevice);
+          device);
       // When
       String result = solution.partOneAnswer();
       // Then
@@ -56,7 +57,7 @@ class Day6SolutionTest {
     void shouldReturn10ForTestInput3() {
       // Given
       solution = new Day6Solution(puzzleInputParser, "testdata/day6/input3.txt",
-          handheldDevice);
+          device);
       // When
       String result = solution.partOneAnswer();
       // Then
@@ -68,7 +69,7 @@ class Day6SolutionTest {
     void shouldReturn11ForTestInput4() {
       // Given
       solution = new Day6Solution(puzzleInputParser, "testdata/day6/input4.txt",
-          handheldDevice);
+          device);
       // When
       String result = solution.partOneAnswer();
       // Then
@@ -84,7 +85,7 @@ class Day6SolutionTest {
     void shouldReturn19ForInitialTestInput() {
       // Given
       solution = new Day6Solution(puzzleInputParser, "testdata/day6/input0.txt",
-          handheldDevice);
+          device);
       // When
       String result = solution.partTwoAnswer();
       // Then
@@ -96,7 +97,7 @@ class Day6SolutionTest {
     void shouldReturn5ForTestInput1() {
       // Given
       solution = new Day6Solution(puzzleInputParser, "testdata/day6/input1.txt",
-          handheldDevice);
+          device);
       // When
       String result = solution.partTwoAnswer();
       // Then
@@ -108,7 +109,7 @@ class Day6SolutionTest {
     void shouldReturn23ForTestInput2() {
       // Given
       solution = new Day6Solution(puzzleInputParser, "testdata/day6/input2.txt",
-          handheldDevice);
+          device);
       // When
       String result = solution.partTwoAnswer();
       // Then
@@ -120,7 +121,7 @@ class Day6SolutionTest {
     void shouldReturn29ForTestInput3() {
       // Given
       solution = new Day6Solution(puzzleInputParser, "testdata/day6/input3.txt",
-          handheldDevice);
+          device);
       // When
       String result = solution.partTwoAnswer();
       // Then
@@ -132,7 +133,7 @@ class Day6SolutionTest {
     void shouldReturn26ForTestInput4() {
       // Given
       solution = new Day6Solution(puzzleInputParser, "testdata/day6/input4.txt",
-          handheldDevice);
+          device);
       // When
       String result = solution.partTwoAnswer();
       // Then
