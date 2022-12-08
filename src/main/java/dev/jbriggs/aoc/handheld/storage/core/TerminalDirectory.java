@@ -28,13 +28,16 @@ public class TerminalDirectory extends TerminalItem {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TerminalDirectory terminalDirectory = (TerminalDirectory) o;
-    return Objects.equal(getName(), terminalDirectory.getName());
+    if (!super.equals(o)) {
+      return false;
+    }
+    TerminalDirectory that = (TerminalDirectory) o;
+    return Objects.equal(contents, that.contents);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(getName());
+    return super.hashCode();
   }
 
   public Long getSize() {

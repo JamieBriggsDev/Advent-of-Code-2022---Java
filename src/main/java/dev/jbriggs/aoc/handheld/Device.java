@@ -27,12 +27,12 @@ public class Device {
   }
 
   public Collection<TerminalDirectory> findDirectoriesAboveFileSize(Long size){
-    return this.terminalReader.getKnownDirectories().stream().filter(x -> x.getSize() > 100000).collect(
+    return this.terminalReader.findAllDirectories().stream().filter(x -> x.getSize() > 100000).collect(
         Collectors.toList());
   }
 
   public Collection<TerminalDirectory> findDirectoriesBelowFileSize(Long size){
-    return this.terminalReader.getKnownDirectories().stream().filter(x -> x.getSize() < 100000).collect(
+    return this.terminalReader.findAllDirectories().stream().filter(x -> x.getSize() < 100000).collect(
         Collectors.toList());
   }
 

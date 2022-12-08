@@ -8,7 +8,6 @@ import dev.jbriggs.aoc.handheld.storage.core.TerminalFile;
 import dev.jbriggs.aoc.handheld.storage.core.TerminalItem;
 import dev.jbriggs.aoc.handheld.storage.core.TerminalReaderState;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Stack;
@@ -32,12 +31,9 @@ public class TerminalReader {
   private TerminalDirectory currentTerminalDirectory;
   private TerminalDirectory rootTerminalDirectory;
 
-  private HashSet<TerminalDirectory> knownDirectories;
-
   public TerminalReader() {
     rootTerminalDirectory = null;
     currentTerminalDirectory = null;
-    knownDirectories = new HashSet<>();
   }
 
   public TerminalDirectory getCurrentTerminalDirectory() {
@@ -106,9 +102,6 @@ public class TerminalReader {
 
   private void updateCurrentDirectory(TerminalDirectory newCurrent){
     currentTerminalDirectory = newCurrent;
-    if(!knownDirectories.contains(knownDirectories)){
-      knownDirectories.add(newCurrent);
-    }
   }
 
   public String getCurrentDirectoryPath() {
