@@ -221,11 +221,11 @@ class TerminalReaderTest {
       // When
       reader.read(input);
       // Then
-      assertThat("Should only no directories", reader.findAllDirectories().isEmpty(), is(true));
+      assertThat("Should only one directory", reader.findAllDirectories().size(), is(1));
     }
 
     @Test
-    @DisplayName("Should return two directories")
+    @DisplayName("Should return three directories")
     void shouldReturnTwoDirectories(){
       // Given
       List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "dir b", "123 a.txt", "$ cd a");
@@ -238,7 +238,65 @@ class TerminalReaderTest {
         }
       });
       // Then
-      assertThat("Should contain two directories", reader.findAllDirectories().size(), is(2));
+      assertThat("Should contain 3 directories", reader.findAllDirectories().size(), is(3));
+    }
+  }
+
+  @Nested
+  @DisplayName("Smallest directory above size tests")
+  class SmallestDirectoryAboveSizeTests{
+    @Test
+    @DisplayName("Should return inner directory")
+    void shouldReturnInnerDirectory() throws TerminalException {
+      // Given
+      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "dir b", "123 a.txt", "$ cd a", "$ ls", "50 b.txt");
+      input.forEach(x -> {
+        try {
+          reader.read(x);
+        } catch (TerminalException e) {
+          throw new RuntimeException(e);
+        }
+      });
+      // When
+      TerminalDirectory result = reader.findSmallestDirectoryAboveSpecificSize(49L);
+      // Then
+      assertThat("Result should be directory a", result.getName(), is("a"));
+    }
+
+    @Test
+    @DisplayName("Should return root directory")
+    void shouldReturnRootDirectory() throws TerminalException {
+      // Given
+      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "dir b", "123 a.txt", "$ cd a", "$ ls", "50 b.txt");
+      input.forEach(x -> {
+        try {
+          reader.read(x);
+        } catch (TerminalException e) {
+          throw new RuntimeException(e);
+        }
+      });
+      // When
+      TerminalDirectory result = reader.findSmallestDirectoryAboveSpecificSize(130L);
+      // Then
+      assertThat("Result should be directory /", result.getName(), is("/"));
+    }
+    @Test
+    @DisplayName("Should throw exception when nothing found")
+    void shouldThrowExceptionWhenNothingFound() {
+      // Given
+      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "123 a.txt", "$ cd a", "$ ls", "50 b.txt");
+      input.forEach(x -> {
+        try {
+          reader.read(x);
+        } catch (TerminalException e) {
+          throw new RuntimeException(e);
+        }
+      });
+      // When
+      TerminalException thrown = assertThrows(TerminalException.class, () -> reader.findSmallestDirectoryAboveSpecificSize(10000L));
+      // Then
+      assertThat("Exception should be thrown with message",
+          thrown.getMessage(), is("No directories found above size 10000"));
     }
   }
 }

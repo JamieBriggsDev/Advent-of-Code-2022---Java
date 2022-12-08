@@ -25,8 +25,7 @@ public abstract class TerminalItem {
       return false;
     }
     TerminalItem item = (TerminalItem) o;
-    return Objects.equal(parentDirectory,
-        item.parentDirectory) && Objects.equal(name,
+    return Objects.equal(name,
         item.name);
   }
 

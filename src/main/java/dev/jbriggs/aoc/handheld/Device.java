@@ -2,10 +2,7 @@ package dev.jbriggs.aoc.handheld;
 
 import dev.jbriggs.aoc.handheld.storage.TerminalException;
 import dev.jbriggs.aoc.handheld.storage.TerminalReader;
-import dev.jbriggs.aoc.handheld.storage.core.TerminalDirectory;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,6 +13,10 @@ public class Device {
     this.terminalReader = terminalReader;
   }
 
+  public TerminalReader getTerminalReader() {
+    return terminalReader;
+  }
+
   public void readTerminalLines(List<String> lines){
     lines.forEach(x -> {
       try {
@@ -24,16 +25,6 @@ public class Device {
         throw new RuntimeException(e);
       }
     });
-  }
-
-  public Collection<TerminalDirectory> findDirectoriesAboveFileSize(Long size){
-    return this.terminalReader.findAllDirectories().stream().filter(x -> x.getSize() > 100000).collect(
-        Collectors.toList());
-  }
-
-  public Collection<TerminalDirectory> findDirectoriesBelowFileSize(Long size){
-    return this.terminalReader.findAllDirectories().stream().filter(x -> x.getSize() < 100000).collect(
-        Collectors.toList());
   }
 
   public int findMarkerPosition(String input, int markerLength) {

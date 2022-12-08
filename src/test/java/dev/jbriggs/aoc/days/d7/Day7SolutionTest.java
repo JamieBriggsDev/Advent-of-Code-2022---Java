@@ -51,4 +51,19 @@ class Day7SolutionTest {
       assertThat("Result should be 95437", result, is("95437"));
     }
   }
+
+  @Nested
+  @DisplayName("Part two tests")
+  class PartTwoTests {
+
+    @Test
+    @DisplayName("Should return 24933642 for test input")
+    void shouldReturn24933642ForTestInput2() {
+      // Given
+      // When
+      String result = solution.partTwoAnswer();
+      // Then
+      assertThat("Result should be 24933642", result, is("24933642"));
+    }
+  }
 }
