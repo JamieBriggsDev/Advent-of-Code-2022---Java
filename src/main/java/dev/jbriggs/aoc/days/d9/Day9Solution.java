@@ -24,7 +24,7 @@ public class Day9Solution extends Day {
   public static final int DAY_NUMBER = 9;
 
   private static final Pattern COMMAND_PATTERN = Pattern.compile(
-      "^([A-Z]) ([\\d])$");
+      "^([A-Z]) ([\\d]{1,5})$");
   public Day9Solution(PuzzleInputParser puzzleInputParser,
       @Value("${solutions.day.9.input}") String inputPath) {
     super(DAY_NUMBER, puzzleInputParser, inputPath);

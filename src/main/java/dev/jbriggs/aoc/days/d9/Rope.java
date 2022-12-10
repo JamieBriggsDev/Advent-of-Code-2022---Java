@@ -35,12 +35,13 @@ public class Rope {
     for (int x = 0; x < places; x++) {
       head.move(direction, 1);
       directionsToMoveTail(direction).forEach(d -> {
-        rememberedTailsPositions.countItem(new Vector2(tail));
         tail.move(d, 1);
         if(!head.isTouching(tail)){
           throw new AOCException("Tail is not touching head!");
         }
       });
+      rememberedTailsPositions.countItem(new Vector2(tail));
+
     }
   }
 

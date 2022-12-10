@@ -36,6 +36,18 @@ class Day9SolutionTest {
       assertThat("Result should be 13", result, is("13"));
     }
 
+    @Test
+    @DisplayName("Should return 13 for test input")
+    void shouldReturn5ForTestInput2() {
+      // Given
+      solution = new Day9Solution(puzzleInputParser, "testdata/day9/input2.txt");
+
+      // When
+      String result = solution.partOneAnswer();
+      // Then
+      assertThat("Result should be 13", result, is("13"));
+    }
+
 
   }
 }
