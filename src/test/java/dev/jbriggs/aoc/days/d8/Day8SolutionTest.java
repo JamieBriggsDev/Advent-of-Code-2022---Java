@@ -55,7 +55,7 @@ class Day8SolutionTest {
       // When
       String result = solution.partTwoAnswer();
       // Then
-      assertThat("Result should be 21", result, is("21"));
+      assertThat("Result should be 8", result, is("8"));
     }
 
 
