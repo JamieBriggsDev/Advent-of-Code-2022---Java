@@ -1,12 +1,9 @@
 package dev.jbriggs.aoc.days.d9;
 
-import dev.jbriggs.aoc.AOCException;
 import dev.jbriggs.aoc.core.Counter;
 import dev.jbriggs.aoc.core.Direction;
 import dev.jbriggs.aoc.core.Vector2;
-import dev.jbriggs.aoc.util.VectorPrinter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,57 +16,41 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class Rope {
 
-  private Vector2 head;
-  private Vector2 tail;
+  private Knot head;
+  private Knot tail;
+  private List<Knot> knots = new ArrayList<>();
   @Builder.Default
   private Counter<Vector2> rememberedTailsPositions = new Counter<>();
 
   public Rope() {
-    head = new Vector2(0, 0);
-    tail = new Vector2(0, 0);
+    this(2);
+  }
+
+  public Rope(int length) {
+    knots = new ArrayList<>();
     rememberedTailsPositions = new Counter<>();
+    for (int i = 0; i < length; i++) {
+      Knot knotToAdd = new Knot(0, 0, i);
+      if (i == 0) {
+        head = knotToAdd;
+        knots.add(knotToAdd);
+      } else if (i == length - 1) {
+        tail = knotToAdd;
+        knots.add(knotToAdd);
+      } else {
+        knots.add(knotToAdd);
+      }
+    }
+    // Set child knots
+    for (int i = 0; i < length - 1; i++) {
+      knots.get(i).setChildKnot(knots.get(i + 1));
+    }
+
     rememberedTailsPositions.countItem(new Vector2(tail));
   }
 
   public void move(Direction direction, int places) {
-    for (int x = 0; x < places; x++) {
-      head.move(direction, 1);
-      directionsToMoveTail(direction).forEach(d -> {
-        tail.move(d, 1);
-        if(!head.isTouching(tail)){
-          throw new AOCException("Tail is not touching head!");
-        }
-      });
-      rememberedTailsPositions.countItem(new Vector2(tail));
-
-    }
+    head.moveAll(direction, places, rememberedTailsPositions, tail);
   }
 
-
-  private List<Direction> directionsToMoveTail(Direction initialDirection) {
-    List<Direction> directions = new ArrayList<>();
-    if (!head.isTouching(tail)) {
-      directions.add(initialDirection);
-      int xDistance = head.getX() - tail.getX();
-      int yDistance = head.getY() - tail.getY();
-      if (Math.abs(xDistance * yDistance) >= 1) {
-        boolean isVerticalDirection = Arrays.asList(Direction.UP,
-                Direction.DOWN)
-            .contains(initialDirection);
-        boolean isHorizontalDirection = Arrays.asList(Direction.LEFT,
-                Direction.RIGHT)
-            .contains(initialDirection);
-        if (isVerticalDirection && xDistance > 0) {
-          directions.add(Direction.RIGHT);
-        } else if (isVerticalDirection && xDistance < 0) {
-          directions.add(Direction.LEFT);
-        } else if (isHorizontalDirection && yDistance > 0) {
-          directions.add(Direction.UP);
-        } else {
-          directions.add(Direction.DOWN);
-        }
-      }
-    }
-    return directions;
-  }
 }

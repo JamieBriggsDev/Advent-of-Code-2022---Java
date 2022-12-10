@@ -15,8 +15,9 @@ public class VectorPrinter {
     StringBuilder stringBuilder = new StringBuilder();
     for (int y = yMax; y >= yMin; y--) {
       for (int x = xMin; x <= xMax; x++) {
-        if(list.contains(new Vector2(x, y))){
-          stringBuilder.append("#");
+        Vector2 o = new Vector2(x, y);
+        if(list.contains(o)){
+          stringBuilder.append(list.indexOf(o));
         }else {
           stringBuilder.append(".");
         }

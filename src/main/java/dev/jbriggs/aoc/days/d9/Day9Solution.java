@@ -52,7 +52,20 @@ public class Day9Solution extends Day {
   @SneakyThrows
   @Override
   protected String partTwo(List<String> input) {
-    return null;
+    Rope rope = new Rope(10);
+    for(String command : input){
+      Matcher matcher = COMMAND_PATTERN.matcher(command);
+      if(matcher.matches()){
+        Direction direction = Direction.fromCode(matcher.group(1));
+        Integer times = Integer.valueOf(matcher.group(2));
+        rope.move(direction, times);
+      }
+    }
+    // Can't be 3114 too low
+    // Can't be 3518 too low
+    // 3519 too low
+    return String.valueOf(
+        rope.getRememberedTailsPositions().getAllItems().size());
   }
 
 

@@ -18,7 +18,6 @@ class Day9SolutionTest {
   @BeforeEach
   public void beforeEach() {
     puzzleInputParser = new PuzzleInputParser();
-    solution = new Day9Solution(puzzleInputParser, "testdata/day9/input.txt");
   }
 
   @Nested
@@ -30,24 +29,28 @@ class Day9SolutionTest {
     @DisplayName("Should return 13 for test input")
     void shouldReturn5ForTestInput1() {
       // Given
+      solution = new Day9Solution(puzzleInputParser, "testdata/day9/input.txt");
       // When
       String result = solution.partOneAnswer();
       // Then
       assertThat("Result should be 13", result, is("13"));
     }
 
+
+  }
+
+  @Nested
+  @DisplayName("Part two tests")
+  class PartTwoTests {
     @Test
-    @DisplayName("Should return 13 for test input")
-    void shouldReturn5ForTestInput2() {
+    @DisplayName("Should return 36 for test input")
+    void shouldReturn5ForTestInput1() {
       // Given
       solution = new Day9Solution(puzzleInputParser, "testdata/day9/input2.txt");
-
       // When
-      String result = solution.partOneAnswer();
+      String result = solution.partTwoAnswer();
       // Then
-      assertThat("Result should be 13", result, is("13"));
+      assertThat("Result should be 36", result, is("36"));
     }
-
-
   }
 }
