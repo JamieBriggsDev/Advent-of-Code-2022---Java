@@ -2,6 +2,9 @@ package dev.jbriggs.aoc.days.d8;
 
 import dev.jbriggs.aoc.Day;
 import dev.jbriggs.aoc.handheld.Device;
+import dev.jbriggs.aoc.handheld.reader.TerminalReader;
+import dev.jbriggs.aoc.handheld.register.MemoryRegisterHandler;
+import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import java.util.Arrays;
 import java.util.List;
@@ -18,9 +21,10 @@ public class Day8Solution extends Day {
   public static final int DAY_NUMBER = 8;
 
   public Day8Solution(PuzzleInputParser puzzleInputParser,
-      @Value("${solutions.day.8.input}") String inputPath, Device device) {
+      @Value("${solutions.day.8.input}") String inputPath) {
     super(DAY_NUMBER, puzzleInputParser, inputPath);
-    this.device = device;
+    this.device = new Device(
+        new TerminalReader(new TerminalStorage(), new MemoryRegisterHandler()));
   }
 
   @Override
@@ -28,18 +32,18 @@ public class Day8Solution extends Day {
     int length = input.get(0).length();
     int height = input.size();
     Forest forest = new Forest(length, height);
-    for(int y = 0; y < height; y++){
-      int[] treesInRow = Arrays.stream(input.get(y).split(""))
-          .mapToInt(x -> Integer.valueOf(x)).toArray();
-      for(int x = 0; x < treesInRow.length; x++){
+    for (int y = 0; y < height; y++) {
+      int[] treesInRow = Arrays.stream(input.get(y).split("")).mapToInt(x -> Integer.valueOf(x))
+          .toArray();
+      for (int x = 0; x < treesInRow.length; x++) {
         forest.placeItem(new Tree(treesInRow[x]), x, y);
       }
     }
 
     int treesVisible = 0;
-    for(int y = 0; y < height; y++){
-      for(int x = 0; x < length; x++){
-        if(forest.isTreeVisible(x, y)){
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < length; x++) {
+        if (forest.isTreeVisible(x, y)) {
           treesVisible++;
         }
       }
@@ -53,19 +57,19 @@ public class Day8Solution extends Day {
     int length = input.get(0).length();
     int height = input.size();
     Forest forest = new Forest(length, height);
-    for(int y = 0; y < height; y++){
-      int[] treesInRow = Arrays.stream(input.get(y).split(""))
-          .mapToInt(x -> Integer.valueOf(x)).toArray();
-      for(int x = 0; x < treesInRow.length; x++){
+    for (int y = 0; y < height; y++) {
+      int[] treesInRow = Arrays.stream(input.get(y).split("")).mapToInt(x -> Integer.valueOf(x))
+          .toArray();
+      for (int x = 0; x < treesInRow.length; x++) {
         forest.placeItem(new Tree(treesInRow[x]), x, y);
       }
     }
 
     Long highestScenicScore = 0L;
-    for(int y = 0; y < height; y++){
-      for(int x = 0; x < length; x++){
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < length; x++) {
         Long scenicScore = forest.getScenicScore(x, y);
-        if(scenicScore > highestScenicScore){
+        if (scenicScore > highestScenicScore) {
           highestScenicScore = scenicScore;
         }
       }

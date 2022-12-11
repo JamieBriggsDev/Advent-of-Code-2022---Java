@@ -2,6 +2,9 @@ package dev.jbriggs.aoc.days.d6;
 
 import dev.jbriggs.aoc.Day;
 import dev.jbriggs.aoc.handheld.Device;
+import dev.jbriggs.aoc.handheld.reader.TerminalReader;
+import dev.jbriggs.aoc.handheld.register.MemoryRegisterHandler;
+import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +17,10 @@ public class Day6Solution extends Day {
   public static final int DAY_NUMBER = 6;
 
   public Day6Solution(PuzzleInputParser puzzleInputParser,
-      @Value("${solutions.day.6.input}") String inputPath,
-      Device device) {
+      @Value("${solutions.day.6.input}") String inputPath) {
     super(DAY_NUMBER, puzzleInputParser, inputPath);
-    this.device = device;
+    this.device = new Device(
+        new TerminalReader(new TerminalStorage(), new MemoryRegisterHandler()));
   }
 
   @Override

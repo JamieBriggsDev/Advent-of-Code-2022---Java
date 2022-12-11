@@ -9,16 +9,11 @@ public class MemoryRegisterHandler {
   int xValue = 1;
   private List<Integer> registerValues = new ArrayList<>();
 
-  public void modifyNothing() {
-    updateRegisterValues();
-  }
-
   public void addToRegister(int total) {
     xValue += total;
-    updateRegisterValues();
   }
 
-  private void updateRegisterValues() {
+  public void updateRegisterValues() {
     registerValues.add(xValue);
   }
 

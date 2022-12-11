@@ -53,4 +53,8 @@ public class Device {
     }
     return true;
   }
+
+  public int getSignalStrengthAtCycle(int cycle){
+    return terminalReader.getSignalStrengthAtCycle(cycle);
+  }
 }

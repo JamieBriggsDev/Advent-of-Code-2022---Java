@@ -8,6 +8,7 @@ import dev.jbriggs.aoc.handheld.storage.TerminalDirectory;
 import dev.jbriggs.aoc.handheld.storage.TerminalFile;
 import dev.jbriggs.aoc.handheld.storage.TerminalReaderState;
 import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -22,13 +23,15 @@ public class TerminalReader {
   public static final long TOTAL_DISK_SPACE_AVAILABLE = 70000000L;
 
   private static final Pattern COMMAND_PATTERN = Pattern.compile(
-      "^\\$ ([a-z]+) ?([a-zA-Z\\.\\d\\/]+)?$");
+      "^\\$ ([a-z]+) ?([\\-a-zA-Z\\.\\d\\/]+)?$");
   private static final Pattern OUTPUT_PATTERN = Pattern.compile(
       "^([a-z\\d]+) ?([a-zA-Z\\d\\/\\.]+)?$");
   private TerminalReaderState currentState = TerminalReaderState.WRITING;
 
   private final TerminalStorage terminalStorage;
   private final MemoryRegisterHandler memoryRegisterHandler;
+
+  private List<String> delayedTerminalCommand = new ArrayList<>();
 
   public TerminalReader(TerminalStorage terminalStorage) {
     this.terminalStorage = terminalStorage;
@@ -60,40 +63,52 @@ public class TerminalReader {
     Matcher commandMatcher = COMMAND_PATTERN.matcher(trimmedInput);
     if (commandMatcher.matches()) {
       TerminalCommand command = TerminalCommand.getByCommand(commandMatcher.group(1));
-      performCommand(commandMatcher, command);
+      performCommand(commandMatcher, command, trimmedInput);
     }
     listenToInput(trimmedInput);
   }
 
-  private void performCommand(Matcher commandMatcher, TerminalCommand command)
-      throws TerminalException {
+  private void performCommand(Matcher commandMatcher, TerminalCommand command,
+      String initialCommand) throws TerminalException {
     Integer cyclesToComplete = command.getCyclesToComplete();
-    for (int cycle = cyclesToComplete - 1; cycle >= 0; cycle--) {
-      if (cycle == 0) {
+
+/*
+    handleDelayedCommands(commandMatcher, command);
+*/
+
+    for (int i = cyclesToComplete - 1; i >= 0; i--) {
+      if (i == 0) {
         switch (command) {
           case CHANGE_DIRECTORY -> handleChangeDirectoryCommand(commandMatcher.group(2));
           case LIST -> handleListCommand();
           case ADDX -> handleAddToRegisterCommand(commandMatcher.group(2));
         }
-      } else {
-        if (!isNull(memoryRegisterHandler)) {
-          memoryRegisterHandler.modifyNothing();
-        }
       }
+
+      handleCycleIncrement();
     }
   }
 
+  private void handleDelayedCommands(Matcher commandMatcher, TerminalCommand command) {
+    delayedTerminalCommand.forEach(x -> {
+      switch (command) {
+        case ADDX -> {
+          try {
+            handleAddToRegisterCommand(commandMatcher.group(2));
+          } catch (TerminalException e) {
+            throw new RuntimeException(e);
+          }
+        }
+      }
+    });
+    delayedTerminalCommand = new ArrayList<>();
+  }
+
   private void handleListCommand() {
-    if (!isNull(memoryRegisterHandler)) {
-      memoryRegisterHandler.modifyNothing();
-    }
     currentState = TerminalReaderState.LISTENING;
   }
 
   private void handleChangeDirectoryCommand(String directoryName) throws TerminalException {
-    if (!isNull(memoryRegisterHandler)) {
-      memoryRegisterHandler.modifyNothing();
-    }
     currentState = TerminalReaderState.WRITING;
     try {
       terminalStorage.changeDirectory(directoryName);
@@ -102,11 +117,21 @@ public class TerminalReader {
     }
   }
 
+  private void addCommandToExecuteNextList(String command) {
+    this.delayedTerminalCommand.add(command);
+  }
+
   private void handleAddToRegisterCommand(String stringValue) throws TerminalException {
     if (!isNull(memoryRegisterHandler)) {
       memoryRegisterHandler.addToRegister(Integer.valueOf(stringValue));
-    }else{
+    } else {
       throw new TerminalException("Memory register handler module not added!");
+    }
+  }
+
+  private void handleCycleIncrement() {
+    if (!isNull(memoryRegisterHandler)) {
+      memoryRegisterHandler.updateRegisterValues();
     }
   }
 
@@ -147,5 +172,9 @@ public class TerminalReader {
 
   public int getRegisterValueAtCycle(int cycleNumber) {
     return memoryRegisterHandler.getXValueAtCycle(cycleNumber);
+  }
+
+  public int getSignalStrengthAtCycle(int cycleNumber) {
+    return cycleNumber * memoryRegisterHandler.getXValueAtCycle(cycleNumber);
   }
 }

@@ -34,8 +34,8 @@ class Day6SolutionTest {
     @DisplayName("Should return 5 for test input 1")
     void shouldReturn5ForTestInput1() {
       // Given
-      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input1.txt",
-          device);
+      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input1.txt"
+      );
       // When
       String result = solution.partOneAnswer();
       // Then
@@ -46,8 +46,8 @@ class Day6SolutionTest {
     @DisplayName("Should return 6 for test input 2")
     void shouldReturn6ForTestInput2() {
       // Given
-      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input2.txt",
-          device);
+      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input2.txt"
+      );
       // When
       String result = solution.partOneAnswer();
       // Then
@@ -58,8 +58,8 @@ class Day6SolutionTest {
     @DisplayName("Should return 10 for test input 3")
     void shouldReturn10ForTestInput3() {
       // Given
-      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input3.txt",
-          device);
+      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input3.txt"
+      );
       // When
       String result = solution.partOneAnswer();
       // Then
@@ -70,8 +70,8 @@ class Day6SolutionTest {
     @DisplayName("Should return 11 for test input 4")
     void shouldReturn11ForTestInput4() {
       // Given
-      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input4.txt",
-          device);
+      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input4.txt"
+      );
       // When
       String result = solution.partOneAnswer();
       // Then
@@ -86,8 +86,8 @@ class Day6SolutionTest {
     @DisplayName("Should return 19 for initial test input")
     void shouldReturn19ForInitialTestInput() {
       // Given
-      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input0.txt",
-          device);
+      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input0.txt"
+      );
       // When
       String result = solution.partTwoAnswer();
       // Then
@@ -98,8 +98,8 @@ class Day6SolutionTest {
     @DisplayName("Should return 23 for test input 1")
     void shouldReturn5ForTestInput1() {
       // Given
-      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input1.txt",
-          device);
+      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input1.txt"
+      );
       // When
       String result = solution.partTwoAnswer();
       // Then
@@ -110,8 +110,8 @@ class Day6SolutionTest {
     @DisplayName("Should return 23 for test input 2")
     void shouldReturn23ForTestInput2() {
       // Given
-      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input2.txt",
-          device);
+      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input2.txt"
+      );
       // When
       String result = solution.partTwoAnswer();
       // Then
@@ -122,8 +122,8 @@ class Day6SolutionTest {
     @DisplayName("Should return 29 for test input 3")
     void shouldReturn29ForTestInput3() {
       // Given
-      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input3.txt",
-          device);
+      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input3.txt"
+      );
       // When
       String result = solution.partTwoAnswer();
       // Then
@@ -134,8 +134,8 @@ class Day6SolutionTest {
     @DisplayName("Should return 26 for test input 4")
     void shouldReturn26ForTestInput4() {
       // Given
-      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input4.txt",
-          device);
+      solution = new Day6Solution(puzzleInputParser, "testdata/day6/input4.txt"
+      );
       // When
       String result = solution.partTwoAnswer();
       // Then

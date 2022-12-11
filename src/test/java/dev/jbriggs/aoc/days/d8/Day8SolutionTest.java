@@ -23,7 +23,7 @@ class Day8SolutionTest {
   public void beforeEach() {
     device = new Device(new TerminalReader(new TerminalStorage()));
     puzzleInputParser = new PuzzleInputParser();
-    solution = new Day8Solution(puzzleInputParser, "testdata/day8/input.txt", device);
+    solution = new Day8Solution(puzzleInputParser, "testdata/day8/input.txt");
   }
 
   @Nested
