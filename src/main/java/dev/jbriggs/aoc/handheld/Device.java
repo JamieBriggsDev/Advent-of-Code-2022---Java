@@ -1,30 +1,32 @@
 package dev.jbriggs.aoc.handheld;
 
-import dev.jbriggs.aoc.handheld.storage.TerminalException;
-import dev.jbriggs.aoc.handheld.storage.TerminalReader;
+import dev.jbriggs.aoc.handheld.reader.TerminalException;
+import dev.jbriggs.aoc.handheld.reader.TerminalReader;
+import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
-@Component
 public class Device {
+
   private final TerminalReader terminalReader;
+  private final TerminalStorage terminalStorage;
+
+  public Device() {
+    this.terminalStorage = new TerminalStorage();
+    this.terminalReader = new TerminalReader(this.terminalStorage);
+  }
 
   public Device(TerminalReader terminalReader) {
     this.terminalReader = terminalReader;
+    this.terminalStorage = terminalReader.getTerminalStorage();
   }
 
   public TerminalReader getTerminalReader() {
     return terminalReader;
   }
 
-  public void readTerminalLines(List<String> lines){
-    lines.forEach(x -> {
-      try {
-        terminalReader.read(x);
-      } catch (TerminalException e) {
-        throw new RuntimeException(e);
-      }
-    });
+  public void readTerminalLines(List<String> lines) throws TerminalException {
+    terminalReader.readAll(lines);
   }
 
   public int findMarkerPosition(String input, int markerLength) {
@@ -37,8 +39,8 @@ public class Device {
     return input.length();
   }
 
-  private static boolean hasUniqueValues(char[] data,
-      int currentCharacterPosition, int markerLength) {
+  private static boolean hasUniqueValues(char[] data, int currentCharacterPosition,
+      int markerLength) {
     for (int toCheck = currentCharacterPosition - (markerLength);
         toCheck < currentCharacterPosition; toCheck++) {
       for (int other = toCheck + 1; other < currentCharacterPosition; other++) {

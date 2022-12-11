@@ -5,9 +5,9 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import dev.jbriggs.aoc.handheld.storage.core.TerminalDirectory;
-import dev.jbriggs.aoc.handheld.storage.core.TerminalFile;
-import dev.jbriggs.aoc.handheld.storage.core.TerminalReaderState;
+import dev.jbriggs.aoc.handheld.reader.TerminalException;
+import dev.jbriggs.aoc.handheld.reader.TerminalReader;
+import dev.jbriggs.aoc.handheld.register.MemoryRegisterHandler;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,12 +21,12 @@ class TerminalReaderTest {
 
   @BeforeEach
   public void beforeEach() {
-    reader = new TerminalReader();
+    reader = new TerminalReader(new TerminalStorage(), new MemoryRegisterHandler());
   }
 
   @Nested
-  @DisplayName("Terminal reader state test")
-  class TerminalReaderStateTest {
+  @DisplayName("Terminal state tests")
+  class TerminalStateTests {
 
     @Test
     @DisplayName("Should start in reading state")
@@ -36,10 +36,10 @@ class TerminalReaderTest {
           is(TerminalReaderState.WRITING));
     }
 
+
     @Test
     @DisplayName("Should be in writing state when change directory command sent")
-    void shouldBeInWritingStateWhenChangeDirectoryCommandSent()
-        throws TerminalException {
+    void shouldBeInWritingStateWhenChangeDirectoryCommandSent() throws TerminalException {
       // Given
       // When
       reader.read("$ cd /");
@@ -50,8 +50,7 @@ class TerminalReaderTest {
 
     @Test
     @DisplayName("Should be in listening state when list command sent")
-    void shouldBeInListeningStateWhenListCommandSent()
-        throws TerminalException {
+    void shouldBeInListeningStateWhenListCommandSent() throws TerminalException {
       reader.read("$ cd /");
       // When
       reader.read("$ ls");
@@ -59,11 +58,10 @@ class TerminalReaderTest {
       assertThat("Reader should be listening", reader.getCurrentState(),
           is(TerminalReaderState.LISTENING));
     }
-
   }
 
   @Nested
-  @DisplayName("Change directory tests")
+  @DisplayName("Change directory 'cd' tests")
   class ChangeDirectoriesTests {
 
     @Test
@@ -74,8 +72,8 @@ class TerminalReaderTest {
       // When
       reader.read(input);
       // Then
-      assertThat("Reader should be in correct directory",
-          reader.getCurrentDirectoryPath(), is("/"));
+      assertThat("Reader should be in correct directory", reader.getCurrentDirectoryPath(),
+          is("/"));
       assertThat("Reader should be in correct current folder name",
           reader.getCurrentTerminalDirectory().getName(), is("/"));
     }
@@ -94,8 +92,8 @@ class TerminalReaderTest {
         }
       });
       // Then
-      assertThat("Reader should be in correct directory",
-          reader.getCurrentDirectoryPath(), is("/a/"));
+      assertThat("Reader should be in correct directory", reader.getCurrentDirectoryPath(),
+          is("/a/"));
       assertThat("Reader should be in correct current folder name",
           reader.getCurrentTerminalDirectory().getName(), is("a"));
     }
@@ -104,8 +102,8 @@ class TerminalReaderTest {
     @DisplayName("Should go in to third directory")
     void shouldGoIntoThirdDirectory() {
       // Given
-      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "$ cd a",
-          "$ ls", "dir b", "$ cd b");
+      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "$ cd a", "$ ls", "dir b",
+          "$ cd b");
       // When
       input.forEach(x -> {
         try {
@@ -115,8 +113,8 @@ class TerminalReaderTest {
         }
       });
       // Then
-      assertThat("Reader should be in correct directory",
-          reader.getCurrentDirectoryPath(), is("/a/b/"));
+      assertThat("Reader should be in correct directory", reader.getCurrentDirectoryPath(),
+          is("/a/b/"));
       assertThat("Reader should be in correct current folder name",
           reader.getCurrentTerminalDirectory().getName(), is("b"));
     }
@@ -125,8 +123,8 @@ class TerminalReaderTest {
     @DisplayName("Should go back to second directory")
     void shouldGoBackToSecondDirectory() {
       // Given
-      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "$ cd a",
-          "$ ls", "dir b", "$ cd b", "$ cd ..");
+      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "$ cd a", "$ ls", "dir b",
+          "$ cd b", "$ cd ..");
       // When
       input.forEach(x -> {
         try {
@@ -136,30 +134,29 @@ class TerminalReaderTest {
         }
       });
       // Then
-      assertThat("Reader should be in correct directory",
-          reader.getCurrentDirectoryPath(), is("/a/"));
+      assertThat("Reader should be in correct directory", reader.getCurrentDirectoryPath(),
+          is("/a/"));
       assertThat("Reader should be in correct current folder name",
           reader.getCurrentTerminalDirectory().getName(), is("a"));
     }
 
     @Test
     @DisplayName("Should throw exception when trying to go to directory which isnt found")
-    void ShouldThrowExceptionWhenTryingToGoToDirectoryWhichIsntFound()
-        throws TerminalException {
+    void ShouldThrowExceptionWhenTryingToGoToDirectoryWhichIsntFound() throws TerminalException {
       // Given
       reader.read("$ cd /");
       String input = "$ cd a";
       // When
       TerminalException thrown = assertThrows(TerminalException.class, () -> reader.read(input));
       // Then
-      assertThat("Exception should be thrown with message",
-          thrown.getMessage(), is("Directory not found yet - a"));
+      assertThat("Exception should be thrown with message", thrown.getMessage(),
+          is("Unable to change directory"));
     }
 
   }
 
   @Nested
-  @DisplayName("List tests")
+  @DisplayName("List 'ls' tests")
   class ListTests {
 
     @Test
@@ -176,8 +173,8 @@ class TerminalReaderTest {
         }
       });
       // Then
-      assertThat("Reader should be in correct directory",
-          reader.getCurrentDirectoryPath(), is("/"));
+      assertThat("Reader should be in correct directory", reader.getCurrentDirectoryPath(),
+          is("/"));
       assertThat("Current folder should have one child",
           reader.getCurrentTerminalDirectory().getContents().size(), is(1));
       assertThat("Current folder should have directory in contents",
@@ -199,8 +196,8 @@ class TerminalReaderTest {
         }
       });
       // Then
-      assertThat("Reader should be in correct directory",
-          reader.getCurrentDirectoryPath(), is("/"));
+      assertThat("Reader should be in correct directory", reader.getCurrentDirectoryPath(),
+          is("/"));
       assertThat("Current folder should have one child",
           reader.getCurrentTerminalDirectory().getContents().size(), is(1));
       assertThat("Current folder should have directory in contents",
@@ -210,8 +207,46 @@ class TerminalReaderTest {
   }
 
   @Nested
+  @DisplayName("Add to register 'addx' tests")
+  class AddTests {
+
+    @Test
+    @DisplayName("Should add to register")
+    void shouldAddToRegister() throws TerminalException {
+      // Given
+      String input = "$ addx 1";
+      // When
+      reader.read(input);
+      // Then
+      assertThat("Memory register X should have value 1 at cycle 1", reader.getRegisterValueAtCycle(1),
+          is(1));
+      assertThat("Memory register X should have value 2 at cycle 2", reader.getRegisterValueAtCycle(2),
+          is(2));
+    }
+
+    @Test
+    @DisplayName("Should add to register twice")
+    void shouldAddToRegisterTwice() throws TerminalException {
+      // Given
+      List<String> input = Arrays.asList("$ addx 1", "$ addx 2");
+      // When
+      for(String command : input){
+        reader.read(command);
+      }
+      // Then
+      assertThat("Memory register X should have value 1 at cycle 1", reader.getRegisterValueAtCycle(1),
+          is(1));
+      assertThat("Memory register X should have value 2 at cycle 2", reader.getRegisterValueAtCycle(2),
+          is(2));
+      assertThat("Memory register X should have value 2 at cycle 3", reader.getRegisterValueAtCycle(3),
+          is(2));
+      assertThat("Memory register X should have value 4 at cycle 4", reader.getRegisterValueAtCycle(4),
+          is(4));
+    }
+  }
+  @Nested
   @DisplayName("Get all directories tests")
-  class GetAllDirectoriesTests{
+  class GetAllDirectoriesTests {
 
     @Test
     @DisplayName("Should return zero directories when only root")
@@ -226,7 +261,7 @@ class TerminalReaderTest {
 
     @Test
     @DisplayName("Should return three directories")
-    void shouldReturnTwoDirectories(){
+    void shouldReturnTwoDirectories() {
       // Given
       List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "dir b", "123 a.txt", "$ cd a");
       // When
@@ -244,12 +279,14 @@ class TerminalReaderTest {
 
   @Nested
   @DisplayName("Smallest directory above size tests")
-  class SmallestDirectoryAboveSizeTests{
+  class SmallestDirectoryAboveSizeTests {
+
     @Test
     @DisplayName("Should return inner directory")
     void shouldReturnInnerDirectory() throws TerminalException {
       // Given
-      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "dir b", "123 a.txt", "$ cd a", "$ ls", "50 b.txt");
+      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "dir b", "123 a.txt", "$ cd a",
+          "$ ls", "50 b.txt");
       input.forEach(x -> {
         try {
           reader.read(x);
@@ -267,7 +304,8 @@ class TerminalReaderTest {
     @DisplayName("Should return root directory")
     void shouldReturnRootDirectory() throws TerminalException {
       // Given
-      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "dir b", "123 a.txt", "$ cd a", "$ ls", "50 b.txt");
+      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "dir b", "123 a.txt", "$ cd a",
+          "$ ls", "50 b.txt");
       input.forEach(x -> {
         try {
           reader.read(x);
@@ -280,11 +318,13 @@ class TerminalReaderTest {
       // Then
       assertThat("Result should be directory /", result.getName(), is("/"));
     }
+
     @Test
     @DisplayName("Should throw exception when nothing found")
     void shouldThrowExceptionWhenNothingFound() {
       // Given
-      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "123 a.txt", "$ cd a", "$ ls", "50 b.txt");
+      List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "123 a.txt", "$ cd a", "$ ls",
+          "50 b.txt");
       input.forEach(x -> {
         try {
           reader.read(x);
@@ -293,10 +333,11 @@ class TerminalReaderTest {
         }
       });
       // When
-      TerminalException thrown = assertThrows(TerminalException.class, () -> reader.findSmallestDirectoryAboveSpecificSize(10000L));
+      TerminalException thrown = assertThrows(TerminalException.class,
+          () -> reader.findSmallestDirectoryAboveSpecificSize(10000L));
       // Then
-      assertThat("Exception should be thrown with message",
-          thrown.getMessage(), is("No directories found above size 10000"));
+      assertThat("Exception should be thrown with message", thrown.getMessage(),
+          is("No directories found above size 10000"));
     }
   }
 }

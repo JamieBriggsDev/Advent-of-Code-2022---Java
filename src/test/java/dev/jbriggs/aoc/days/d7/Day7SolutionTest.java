@@ -4,7 +4,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import dev.jbriggs.aoc.handheld.Device;
-import dev.jbriggs.aoc.handheld.storage.TerminalReader;
+import dev.jbriggs.aoc.handheld.reader.TerminalReader;
+import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,7 @@ class Day7SolutionTest {
 
   @BeforeEach
   public void beforeEach() {
-    device = new Device(new TerminalReader());
+    device = new Device(new TerminalReader(new TerminalStorage()));
     puzzleInputParser = new PuzzleInputParser();
     solution = new Day7Solution(puzzleInputParser, "testdata/day7/input.txt", device);
   }

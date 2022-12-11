@@ -1,4 +1,4 @@
-package dev.jbriggs.aoc.handheld.storage.core;
+package dev.jbriggs.aoc.handheld.storage;
 
 import com.google.common.base.Objects;
 import lombok.Getter;

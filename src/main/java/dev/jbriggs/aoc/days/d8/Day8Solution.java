@@ -2,11 +2,8 @@ package dev.jbriggs.aoc.days.d8;
 
 import dev.jbriggs.aoc.Day;
 import dev.jbriggs.aoc.handheld.Device;
-import dev.jbriggs.aoc.handheld.storage.TerminalReader;
-import dev.jbriggs.aoc.handheld.storage.core.TerminalDirectory;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

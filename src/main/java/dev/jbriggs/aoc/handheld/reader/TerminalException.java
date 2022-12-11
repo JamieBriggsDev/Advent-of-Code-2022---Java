@@ -1,4 +1,4 @@
-package dev.jbriggs.aoc.handheld.storage;
+package dev.jbriggs.aoc.handheld.reader;
 
 import dev.jbriggs.aoc.handheld.HandheldException;
 

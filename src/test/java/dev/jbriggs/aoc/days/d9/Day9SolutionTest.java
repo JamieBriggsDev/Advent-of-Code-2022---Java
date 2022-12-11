@@ -23,8 +23,6 @@ class Day9SolutionTest {
   @Nested
   @DisplayName("Part one tests")
   class PartOneTests {
-
-
     @Test
     @DisplayName("Should return 13 for test input")
     void shouldReturn5ForTestInput1() {
@@ -35,8 +33,6 @@ class Day9SolutionTest {
       // Then
       assertThat("Result should be 13", result, is("13"));
     }
-
-
   }
 
   @Nested

@@ -3,6 +3,8 @@ package dev.jbriggs.aoc.handheld;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import dev.jbriggs.aoc.handheld.reader.TerminalReader;
+import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,7 +17,7 @@ class DeviceTest {
 
   @BeforeEach
   public void beforeEach() {
-    device = new Device(null);
+    device = new Device(new TerminalReader(new TerminalStorage()));
   }
 
   @Nested

@@ -1,16 +1,22 @@
-package dev.jbriggs.aoc.handheld.storage.core;
+package dev.jbriggs.aoc.handheld.storage;
 
 import com.google.common.base.Objects;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.StringJoiner;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
+@SuperBuilder
 public class TerminalDirectory extends TerminalItem {
 
   private final HashSet<TerminalItem> contents;
 
+  public TerminalDirectory(String folderName) {
+    super(null, folderName);
+    this.contents = new HashSet<>();
+  }
   public TerminalDirectory(TerminalDirectory parent, String folderName) {
     super(parent, folderName);
     this.contents = new HashSet<>();

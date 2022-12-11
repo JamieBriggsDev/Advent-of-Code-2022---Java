@@ -2,8 +2,8 @@ package dev.jbriggs.aoc.days.d7;
 
 import dev.jbriggs.aoc.Day;
 import dev.jbriggs.aoc.handheld.Device;
-import dev.jbriggs.aoc.handheld.storage.TerminalReader;
-import dev.jbriggs.aoc.handheld.storage.core.TerminalDirectory;
+import dev.jbriggs.aoc.handheld.reader.TerminalReader;
+import dev.jbriggs.aoc.handheld.storage.TerminalDirectory;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +26,7 @@ public class Day7Solution extends Day {
   }
 
   @Override
+  @SneakyThrows
   protected String partOne(List<String> input) {
     device.readTerminalLines(input);
     Collection<TerminalDirectory> directoriesAboveFileSize = device.getTerminalReader()

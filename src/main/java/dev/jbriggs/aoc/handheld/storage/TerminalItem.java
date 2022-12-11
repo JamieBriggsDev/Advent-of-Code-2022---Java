@@ -1,9 +1,11 @@
-package dev.jbriggs.aoc.handheld.storage.core;
+package dev.jbriggs.aoc.handheld.storage;
 
 import com.google.common.base.Objects;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
+@SuperBuilder
 public abstract class TerminalItem {
 
   protected final TerminalDirectory parentDirectory;
