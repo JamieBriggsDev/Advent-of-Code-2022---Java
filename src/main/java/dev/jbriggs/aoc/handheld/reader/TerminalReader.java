@@ -2,7 +2,7 @@ package dev.jbriggs.aoc.handheld.reader;
 
 import static java.util.Objects.isNull;
 
-import dev.jbriggs.aoc.handheld.register.MemoryRegisterHandler;
+import dev.jbriggs.aoc.handheld.core.register.MemoryRegisterHolder;
 import dev.jbriggs.aoc.handheld.storage.TerminalCommand;
 import dev.jbriggs.aoc.handheld.storage.TerminalDirectory;
 import dev.jbriggs.aoc.handheld.storage.TerminalFile;
@@ -29,19 +29,14 @@ public class TerminalReader {
   private TerminalReaderState currentState = TerminalReaderState.WRITING;
 
   private final TerminalStorage terminalStorage;
-  private final MemoryRegisterHandler memoryRegisterHandler;
-
+  private final MemoryRegisterHolder memoryRegisterHolder;
   private List<String> delayedTerminalCommand = new ArrayList<>();
 
-  public TerminalReader(TerminalStorage terminalStorage) {
-    this.terminalStorage = terminalStorage;
-    this.memoryRegisterHandler = null;
-  }
 
   public TerminalReader(TerminalStorage terminalStorage,
-      MemoryRegisterHandler memoryRegisterHandler) {
+      MemoryRegisterHolder memoryRegisterHolder) {
     this.terminalStorage = terminalStorage;
-    this.memoryRegisterHandler = memoryRegisterHandler;
+    this.memoryRegisterHolder = memoryRegisterHolder;
   }
 
   public TerminalDirectory getCurrentTerminalDirectory() {
@@ -122,16 +117,16 @@ public class TerminalReader {
   }
 
   private void handleAddToRegisterCommand(String stringValue) throws TerminalException {
-    if (!isNull(memoryRegisterHandler)) {
-      memoryRegisterHandler.addToRegister(Integer.valueOf(stringValue));
+    if (!isNull(memoryRegisterHolder)) {
+      memoryRegisterHolder.addToXRegister(Integer.valueOf(stringValue));
     } else {
       throw new TerminalException("Memory register handler module not added!");
     }
   }
 
   private void handleCycleIncrement() {
-    if (!isNull(memoryRegisterHandler)) {
-      memoryRegisterHandler.updateRegisterValues();
+    if (!isNull(memoryRegisterHolder)) {
+      memoryRegisterHolder.updateRegisterValues();
     }
   }
 
@@ -170,11 +165,14 @@ public class TerminalReader {
     return terminalStorage.findAllDirectories();
   }
 
-  public int getRegisterValueAtCycle(int cycleNumber) {
-    return memoryRegisterHandler.getXValueAtCycle(cycleNumber);
+  public int getRegisterValueAtEndOfCycle(int cycleNumber) {
+    return memoryRegisterHolder.getXRegisterValueAtCycle(cycleNumber);
   }
 
-  public int getSignalStrengthAtCycle(int cycleNumber) {
-    return cycleNumber * memoryRegisterHandler.getXValueAtCycle(cycleNumber);
+  public int getSignalStrengthAtEndOfCycle(int cycleNumber) {
+    return cycleNumber * memoryRegisterHolder.getXRegisterValueAtCycle(cycleNumber);
+  }
+  public int getSignalStrengthDuringCycle(int cycleNumber) {
+    return cycleNumber * memoryRegisterHolder.getXRegisterValueAtCycle(cycleNumber-1);
   }
 }

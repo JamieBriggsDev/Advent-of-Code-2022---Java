@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import dev.jbriggs.aoc.handheld.reader.TerminalException;
 import dev.jbriggs.aoc.handheld.reader.TerminalReader;
-import dev.jbriggs.aoc.handheld.register.MemoryRegisterHandler;
+import dev.jbriggs.aoc.handheld.core.register.MemoryRegisterHolder;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ class TerminalReaderTest {
 
   @BeforeEach
   public void beforeEach() {
-    reader = new TerminalReader(new TerminalStorage(), new MemoryRegisterHandler());
+    reader = new TerminalReader(new TerminalStorage(), new MemoryRegisterHolder());
   }
 
   @Nested
@@ -218,9 +218,9 @@ class TerminalReaderTest {
       // When
       reader.read(input);
       // Then
-      assertThat("Memory register X should have value 1 at cycle 1", reader.getRegisterValueAtCycle(1),
+      assertThat("Memory register X should have value 1 at cycle 1", reader.getRegisterValueAtEndOfCycle(1),
           is(1));
-      assertThat("Memory register X should have value 2 at cycle 2", reader.getRegisterValueAtCycle(2),
+      assertThat("Memory register X should have value 2 at cycle 2", reader.getRegisterValueAtEndOfCycle(2),
           is(2));
     }
 
@@ -234,13 +234,13 @@ class TerminalReaderTest {
         reader.read(command);
       }
       // Then
-      assertThat("Memory register X should have value 1 at cycle 1", reader.getRegisterValueAtCycle(1),
+      assertThat("Memory register X should have value 1 at cycle 1", reader.getRegisterValueAtEndOfCycle(1),
           is(1));
-      assertThat("Memory register X should have value 2 at cycle 2", reader.getRegisterValueAtCycle(2),
+      assertThat("Memory register X should have value 2 at cycle 2", reader.getRegisterValueAtEndOfCycle(2),
           is(2));
-      assertThat("Memory register X should have value 2 at cycle 3", reader.getRegisterValueAtCycle(3),
+      assertThat("Memory register X should have value 2 at cycle 3", reader.getRegisterValueAtEndOfCycle(3),
           is(2));
-      assertThat("Memory register X should have value 4 at cycle 4", reader.getRegisterValueAtCycle(4),
+      assertThat("Memory register X should have value 4 at cycle 4", reader.getRegisterValueAtEndOfCycle(4),
           is(4));
     }
   }

@@ -4,21 +4,17 @@ import dev.jbriggs.aoc.handheld.reader.TerminalException;
 import dev.jbriggs.aoc.handheld.reader.TerminalReader;
 import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
 import java.util.List;
-import org.springframework.stereotype.Component;
 
 public class Device {
 
+  private final CRTScreen crtScreen;
   private final TerminalReader terminalReader;
   private final TerminalStorage terminalStorage;
 
   public Device() {
+    this.crtScreen = new CRTScreen();
     this.terminalStorage = new TerminalStorage();
-    this.terminalReader = new TerminalReader(this.terminalStorage);
-  }
-
-  public Device(TerminalReader terminalReader) {
-    this.terminalReader = terminalReader;
-    this.terminalStorage = terminalReader.getTerminalStorage();
+    this.terminalReader = new TerminalReader(this.terminalStorage, this.crtScreen);
   }
 
   public TerminalReader getTerminalReader() {
@@ -54,7 +50,23 @@ public class Device {
     return true;
   }
 
-  public int getSignalStrengthAtCycle(int cycle){
-    return terminalReader.getSignalStrengthAtCycle(cycle);
+  public int getSignalStrengthAtEndOfCycle(int cycle){
+    return terminalReader.getSignalStrengthAtEndOfCycle(cycle);
+  }
+
+  public int getSignalStrengthDuringCycle(int cycle){
+    return terminalReader.getSignalStrengthDuringCycle(cycle);
+  }
+
+  public int getRegisterValueAtEndOfCycle(int cycle){
+    return terminalReader.getRegisterValueAtEndOfCycle(cycle);
+  }
+
+  public int getRegisterValueDuringCycle(int cycle) {
+    return terminalReader.getRegisterValueAtEndOfCycle(cycle - 1);
+  }
+
+  public String getCurrentScreenDisplay() {
+    return crtScreen.printScreen(40, 6, '#', '.');
   }
 }

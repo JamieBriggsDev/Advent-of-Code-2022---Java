@@ -21,7 +21,7 @@ class Day6SolutionTest {
 
   @BeforeEach
   public void beforeEach() {
-    device = new Device(new TerminalReader(new TerminalStorage()));
+    device = new Device();
     puzzleInputParser = new PuzzleInputParser();
   }
 

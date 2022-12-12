@@ -35,4 +35,27 @@ class Day10SolutionTest {
     }
   }
 
+  @Nested
+  @DisplayName("Part two tests")
+  class PartTwoTests{
+    @Test
+    @DisplayName("Should return 13 for test input")
+    void shouldReturn5ForTestInput1() {
+      // Given
+      // When
+      String result = solution.partTwoAnswer();
+      // Then
+      assertThat("Result should be have correct result", result, is(
+          """
+              
+              ##..##..##..##..##..##..##..##..##..##..
+              ###...###...###...###...###...###...###.
+              ####....####....####....####....####....
+              #####.....#####.....#####.....#####.....
+              ######......######......######......####
+              #######.......#######.......#######....."""
+      ));
+    }
+      }
+
 }
