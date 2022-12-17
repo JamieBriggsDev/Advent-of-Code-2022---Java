@@ -17,7 +17,7 @@ public class VectorPrinter {
       for (int x = xMin; x <= xMax; x++) {
         Vector2 o = new Vector2(x, y);
         if(list.contains(o)){
-          stringBuilder.append(list.indexOf(o));
+          stringBuilder.append("x");
         }else {
           stringBuilder.append(".");
         }

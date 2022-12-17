@@ -25,6 +25,7 @@ public class Day9Solution extends Day {
 
   private static final Pattern COMMAND_PATTERN = Pattern.compile(
       "^([A-Z]) ([\\d]{1,5})$");
+
   public Day9Solution(PuzzleInputParser puzzleInputParser,
       @Value("${solutions.day.9.input}") String inputPath) {
     super(DAY_NUMBER, puzzleInputParser, inputPath);
@@ -34,9 +35,9 @@ public class Day9Solution extends Day {
   @Override
   protected String partOne(List<String> input) {
     Rope rope = new Rope();
-    for(String command : input){
+    for (String command : input) {
       Matcher matcher = COMMAND_PATTERN.matcher(command);
-      if(matcher.matches()){
+      if (matcher.matches()) {
         Direction direction = Direction.fromCode(matcher.group(1));
         Integer times = Integer.valueOf(matcher.group(2));
         rope.move(direction, times);
@@ -53,9 +54,9 @@ public class Day9Solution extends Day {
   @Override
   protected String partTwo(List<String> input) {
     Rope rope = new Rope(10);
-    for(String command : input){
+    for (String command : input) {
       Matcher matcher = COMMAND_PATTERN.matcher(command);
-      if(matcher.matches()){
+      if (matcher.matches()) {
         Direction direction = Direction.fromCode(matcher.group(1));
         Integer times = Integer.valueOf(matcher.group(2));
         rope.move(direction, times);

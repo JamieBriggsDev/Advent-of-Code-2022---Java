@@ -43,6 +43,7 @@ public class Knot extends Vector2 {
   public void moveAll(Direction direction, int places,
       Counter<Vector2> rememberedTailsPositions, Knot tailToRemember) {
     for (int i = 0; i < places; i++) {
+      // Direction.LEFT.equals(direction) && places == 8 && i == 3
       move(direction, 1);
       if (!isNull(childKnot)) {
         moveChildren(direction);
@@ -52,6 +53,15 @@ public class Knot extends Vector2 {
 */
       if (!isNull(rememberedTailsPositions) && !isNull(tailToRemember)) {
         rememberedTailsPositions.countItem(new Vector2(tailToRemember));
+      }
+
+      if (this.getAllLocations().size() == 10) {
+        log.info("""
+            {direction} {places} - {step}
+            {map}""".replace("{direction}", direction.getCode())
+            .replace("{places}", String.valueOf(places))
+            .replace("{step}", String.valueOf(i)).replace("{map}",
+                VectorPrinter.toString(getAllLocations())));
       }
     }
   }
@@ -64,7 +74,7 @@ public class Knot extends Vector2 {
           });
       childKnot.moveChildren(initialDirection);
       if (!this.isTouching(childKnot)) {
-        throw new AOCException("Knot is not touching child!");
+        log.info("Not touching child knot");
       }
     }
   }
@@ -94,11 +104,11 @@ public class Knot extends Vector2 {
     return directions;
   }
 
-  public List<Vector2> getAllLocations(){
+  public List<Vector2> getAllLocations() {
     List<Vector2> locations = new ArrayList<>();
     locations.add(this);
     Knot currentlyLookingAt = this;
-    while(!isNull(currentlyLookingAt.getChildKnot())){
+    while (!isNull(currentlyLookingAt.getChildKnot())) {
       currentlyLookingAt = currentlyLookingAt.getChildKnot();
       locations.add(currentlyLookingAt);
     }

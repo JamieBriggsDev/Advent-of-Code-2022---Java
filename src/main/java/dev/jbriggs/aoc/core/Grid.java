@@ -1,7 +1,6 @@
 package dev.jbriggs.aoc.core;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
 
 public class Grid<T> {
 
@@ -28,7 +27,11 @@ public class Grid<T> {
   }
 
   public T getItem(int xPosition, int yPosition) {
-    return items[yPosition][xPosition];
+    try{
+      return items[yPosition][xPosition];
+    }catch (ArrayIndexOutOfBoundsException e){
+      return null;
+    }
   }
 
   @Override
