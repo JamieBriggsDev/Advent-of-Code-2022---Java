@@ -21,7 +21,7 @@ class Day6SolutionTest {
 
   @BeforeEach
   public void beforeEach() {
-    device = new Device();
+    device = Device.builder().build();
     puzzleInputParser = new PuzzleInputParser();
   }
 

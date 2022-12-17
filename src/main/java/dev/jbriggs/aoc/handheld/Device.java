@@ -1,28 +1,46 @@
 package dev.jbriggs.aoc.handheld;
 
-import dev.jbriggs.aoc.handheld.reader.TerminalException;
+import static java.util.Objects.isNull;
+
+import dev.jbriggs.aoc.handheld.core.register.MemoryRegisterHolder;
+import dev.jbriggs.aoc.handheld.reader.Reader;
 import dev.jbriggs.aoc.handheld.reader.TerminalReader;
-import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
 import java.util.List;
 
 public class Device {
 
-  private final CRTScreen crtScreen;
-  private final TerminalReader terminalReader;
-  private final TerminalStorage terminalStorage;
-
-  public Device() {
-    this.crtScreen = new CRTScreen();
-    this.terminalStorage = new TerminalStorage();
-    this.terminalReader = new TerminalReader(this.terminalStorage, this.crtScreen);
+  protected Device() {
   }
 
-  public TerminalReader getTerminalReader() {
-    return terminalReader;
+  public static Builder builder() {
+    return new Builder();
   }
 
-  public void readTerminalLines(List<String> lines) throws TerminalException {
-    terminalReader.readAll(lines);
+  private MemoryRegisterHolder memory;
+  private Reader reader;
+
+  public Reader getReader() {
+    return reader;
+  }
+
+  protected void setReader(Reader reader) {
+    this.reader = reader;
+  }
+
+  public MemoryRegisterHolder getMemory() {
+    return memory;
+  }
+
+  protected void setMemory(MemoryRegisterHolder memory) {
+    this.memory = memory;
+  }
+
+  public void readTerminalLines(List<String> lines) throws HandheldException {
+    if (!isNull(reader)) {
+      reader.readAll(lines);
+    } else {
+      throw new HandheldException("Reader module not added!");
+    }
   }
 
   public int findMarkerPosition(String input, int markerLength) {
@@ -35,7 +53,8 @@ public class Device {
     return input.length();
   }
 
-  private static boolean hasUniqueValues(char[] data, int currentCharacterPosition,
+  private static boolean hasUniqueValues(char[] data,
+      int currentCharacterPosition,
       int markerLength) {
     for (int toCheck = currentCharacterPosition - (markerLength);
         toCheck < currentCharacterPosition; toCheck++) {
@@ -50,23 +69,39 @@ public class Device {
     return true;
   }
 
-  public int getSignalStrengthAtEndOfCycle(int cycle){
-    return terminalReader.getSignalStrengthAtEndOfCycle(cycle);
+  public String getCurrentScreenDisplay() throws HandheldException {
+    if (memory instanceof CRTScreen crtScreen) {
+      return crtScreen.printScreen(40, 6, '#', '.');
+    } else {
+      throw new HandheldException("Missing CRT Screen module!");
+    }
   }
 
-  public int getSignalStrengthDuringCycle(int cycle){
-    return terminalReader.getSignalStrengthDuringCycle(cycle);
-  }
+  public static class Builder {
 
-  public int getRegisterValueAtEndOfCycle(int cycle){
-    return terminalReader.getRegisterValueAtEndOfCycle(cycle);
-  }
+    private Device device;
 
-  public int getRegisterValueDuringCycle(int cycle) {
-    return terminalReader.getRegisterValueAtEndOfCycle(cycle - 1);
-  }
+    public Builder() {
+      this.device = new Device();
+    }
 
-  public String getCurrentScreenDisplay() {
-    return crtScreen.printScreen(40, 6, '#', '.');
+    public Builder addModule(Reader reader) {
+      this.device.setReader(reader);
+      return this;
+    }
+
+    public Builder addModule(MemoryRegisterHolder memoryRegisterHolder) {
+      this.device.setMemory(memoryRegisterHolder);
+      return this;
+    }
+
+    public Device build() {
+      if (!isNull(this.device.getReader())) {
+        ((TerminalReader) this.device.getReader()).setMemoryRegisterHolder(
+            this.device.getMemory());
+      }
+      return device;
+    }
+
   }
 }

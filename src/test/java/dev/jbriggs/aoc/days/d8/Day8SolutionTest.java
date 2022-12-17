@@ -21,7 +21,7 @@ class Day8SolutionTest {
 
   @BeforeEach
   public void beforeEach() {
-    device = new Device();
+    device = Device.builder().build();
     puzzleInputParser = new PuzzleInputParser();
     solution = new Day8Solution(puzzleInputParser, "testdata/day8/input.txt");
   }

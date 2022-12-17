@@ -3,9 +3,7 @@ package dev.jbriggs.aoc.handheld;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import dev.jbriggs.aoc.handheld.reader.TerminalException;
 import dev.jbriggs.aoc.handheld.reader.TerminalReader;
-import dev.jbriggs.aoc.handheld.core.register.MemoryRegisterHolder;
 import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +19,8 @@ class DeviceTest {
 
   @BeforeEach
   public void beforeEach() {
-    device = new Device();
+    device = Device.builder().addModule(new TerminalReader())
+        .addModule(new CRTScreen()).build();
   }
 
   @Nested
@@ -103,36 +102,56 @@ class DeviceTest {
 
   @Nested
   @DisplayName("Signal strength tests")
-  class SignalStrengthTests{
+  class SignalStrengthTests {
 
     @Test
     @DisplayName("Should read register value at end of cycle")
-    void shouldReadSignalCommands() throws TerminalException {
+    void shouldReadSignalCommands() throws HandheldException {
       // Given
       List<String> commands = Arrays.asList("$ noop", "$ addx 3", "$ addx -5");
       // When
       device.readTerminalLines(commands);
       // Then
-      assertThat("X should be 1 at end cycle 1", device.getRegisterValueAtEndOfCycle(1), is(1));
-      assertThat("X should be 1 at end cycle 2", device.getRegisterValueAtEndOfCycle(2), is(1));
-      assertThat("X should be 4 at end cycle 3", device.getRegisterValueAtEndOfCycle(3), is(4));
-      assertThat("X should be 4 at end cycle 4", device.getRegisterValueAtEndOfCycle(4), is(4));
-      assertThat("X should be -1 at end cycle 5", device.getRegisterValueAtEndOfCycle(5), is(-1));
+      assertThat("X should be 1 at end cycle 1",
+          ((TerminalReader) device.getReader()).getRegisterValueAtEndOfCycle(1),
+          is(1));
+      assertThat("X should be 1 at end cycle 2",
+          ((TerminalReader) device.getReader()).getRegisterValueAtEndOfCycle(2),
+          is(1));
+      assertThat("X should be 4 at end cycle 3",
+          ((TerminalReader) device.getReader()).getRegisterValueAtEndOfCycle(3),
+          is(4));
+      assertThat("X should be 4 at end cycle 4",
+          ((TerminalReader) device.getReader()).getRegisterValueAtEndOfCycle(4),
+          is(4));
+      assertThat("X should be -1 at end cycle 5",
+          ((TerminalReader) device.getReader()).getRegisterValueAtEndOfCycle(5),
+          is(-1));
     }
 
     @Test
     @DisplayName("Should read register value during cycle")
-    void shouldReadRegisterValueDuringCycle() throws TerminalException {
+    void shouldReadRegisterValueDuringCycle() throws HandheldException {
       // Given
       List<String> commands = Arrays.asList("$ noop", "$ addx 3", "$ addx -5");
       // When
       device.readTerminalLines(commands);
       // Then
-      assertThat("X should be 1 during cycle 1", device.getRegisterValueDuringCycle(1), is(1));
-      assertThat("X should be 1 during cycle 2", device.getRegisterValueDuringCycle(2), is(1));
-      assertThat("X should be 1 during cycle 3", device.getRegisterValueDuringCycle(3), is(1));
-      assertThat("X should be 4 during cycle 4", device.getRegisterValueDuringCycle(4), is(4));
-      assertThat("X should be 4 during cycle 5", device.getRegisterValueDuringCycle(5), is(4));
+      assertThat("X should be 1 during cycle 1",
+          ((TerminalReader) device.getReader()).getRegisterValueDuringCycle(1),
+          is(1));
+      assertThat("X should be 1 during cycle 2",
+          ((TerminalReader) device.getReader()).getRegisterValueDuringCycle(2),
+          is(1));
+      assertThat("X should be 1 during cycle 3",
+          ((TerminalReader) device.getReader()).getRegisterValueDuringCycle(3),
+          is(1));
+      assertThat("X should be 4 during cycle 4",
+          ((TerminalReader) device.getReader()).getRegisterValueDuringCycle(4),
+          is(4));
+      assertThat("X should be 4 during cycle 5",
+          ((TerminalReader) device.getReader()).getRegisterValueDuringCycle(5),
+          is(4));
     }
   }
 }

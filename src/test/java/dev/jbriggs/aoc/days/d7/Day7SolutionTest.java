@@ -12,8 +12,6 @@ import org.junit.jupiter.api.Test;
 
 @DisplayName("Day 7 solution test")
 class Day7SolutionTest {
-
-  private Device device;
   private PuzzleInputParser puzzleInputParser;
   private Day7Solution solution;
 

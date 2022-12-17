@@ -19,7 +19,7 @@ public class Day6Solution extends Day {
   public Day6Solution(PuzzleInputParser puzzleInputParser,
       @Value("${solutions.day.6.input}") String inputPath) {
     super(DAY_NUMBER, puzzleInputParser, inputPath);
-    this.device = new Device();
+    this.device = Device.builder().build();
   }
 
   @Override

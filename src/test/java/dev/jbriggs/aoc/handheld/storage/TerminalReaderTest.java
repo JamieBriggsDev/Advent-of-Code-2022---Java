@@ -5,7 +5,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import dev.jbriggs.aoc.handheld.reader.TerminalException;
+import dev.jbriggs.aoc.handheld.HandheldException;
 import dev.jbriggs.aoc.handheld.reader.TerminalReader;
 import dev.jbriggs.aoc.handheld.core.register.MemoryRegisterHolder;
 import java.util.Arrays;
@@ -21,7 +21,8 @@ class TerminalReaderTest {
 
   @BeforeEach
   public void beforeEach() {
-    reader = new TerminalReader(new TerminalStorage(), new MemoryRegisterHolder());
+    reader = new TerminalReader();
+    reader.setMemoryRegisterHolder(new MemoryRegisterHolder());
   }
 
   @Nested
@@ -39,7 +40,7 @@ class TerminalReaderTest {
 
     @Test
     @DisplayName("Should be in writing state when change directory command sent")
-    void shouldBeInWritingStateWhenChangeDirectoryCommandSent() throws TerminalException {
+    void shouldBeInWritingStateWhenChangeDirectoryCommandSent() throws HandheldException {
       // Given
       // When
       reader.read("$ cd /");
@@ -50,7 +51,7 @@ class TerminalReaderTest {
 
     @Test
     @DisplayName("Should be in listening state when list command sent")
-    void shouldBeInListeningStateWhenListCommandSent() throws TerminalException {
+    void shouldBeInListeningStateWhenListCommandSent() throws HandheldException {
       reader.read("$ cd /");
       // When
       reader.read("$ ls");
@@ -66,7 +67,7 @@ class TerminalReaderTest {
 
     @Test
     @DisplayName("Should go in correct directory")
-    void shouldGoInCorrectDirectory() throws TerminalException {
+    void shouldGoInCorrectDirectory() throws HandheldException {
       // Given
       String input = "$ cd /";
       // When
@@ -87,7 +88,7 @@ class TerminalReaderTest {
       input.forEach(x -> {
         try {
           reader.read(x);
-        } catch (TerminalException e) {
+        } catch (HandheldException e) {
           throw new RuntimeException(e);
         }
       });
@@ -108,7 +109,7 @@ class TerminalReaderTest {
       input.forEach(x -> {
         try {
           reader.read(x);
-        } catch (TerminalException e) {
+        } catch (HandheldException e) {
           throw new RuntimeException(e);
         }
       });
@@ -129,7 +130,7 @@ class TerminalReaderTest {
       input.forEach(x -> {
         try {
           reader.read(x);
-        } catch (TerminalException e) {
+        } catch (HandheldException e) {
           throw new RuntimeException(e);
         }
       });
@@ -142,12 +143,12 @@ class TerminalReaderTest {
 
     @Test
     @DisplayName("Should throw exception when trying to go to directory which isnt found")
-    void ShouldThrowExceptionWhenTryingToGoToDirectoryWhichIsntFound() throws TerminalException {
+    void ShouldThrowExceptionWhenTryingToGoToDirectoryWhichIsntFound() throws HandheldException {
       // Given
       reader.read("$ cd /");
       String input = "$ cd a";
       // When
-      TerminalException thrown = assertThrows(TerminalException.class, () -> reader.read(input));
+      HandheldException thrown = assertThrows(HandheldException.class, () -> reader.read(input));
       // Then
       assertThat("Exception should be thrown with message", thrown.getMessage(),
           is("Unable to change directory"));
@@ -168,7 +169,7 @@ class TerminalReaderTest {
       input.forEach(x -> {
         try {
           reader.read(x);
-        } catch (TerminalException e) {
+        } catch (HandheldException e) {
           throw new RuntimeException(e);
         }
       });
@@ -191,7 +192,7 @@ class TerminalReaderTest {
       input.forEach(x -> {
         try {
           reader.read(x);
-        } catch (TerminalException e) {
+        } catch (HandheldException e) {
           throw new RuntimeException(e);
         }
       });
@@ -212,7 +213,7 @@ class TerminalReaderTest {
 
     @Test
     @DisplayName("Should add to register")
-    void shouldAddToRegister() throws TerminalException {
+    void shouldAddToRegister() throws HandheldException {
       // Given
       String input = "$ addx 1";
       // When
@@ -226,7 +227,7 @@ class TerminalReaderTest {
 
     @Test
     @DisplayName("Should add to register twice")
-    void shouldAddToRegisterTwice() throws TerminalException {
+    void shouldAddToRegisterTwice() throws HandheldException {
       // Given
       List<String> input = Arrays.asList("$ addx 1", "$ addx 2");
       // When
@@ -250,7 +251,7 @@ class TerminalReaderTest {
 
     @Test
     @DisplayName("Should return zero directories when only root")
-    void shouldReturnOneDirectoryWhenOnlyRoot() throws TerminalException {
+    void shouldReturnOneDirectoryWhenOnlyRoot() throws HandheldException {
       // Given
       String input = "$ cd /";
       // When
@@ -268,7 +269,7 @@ class TerminalReaderTest {
       input.forEach(x -> {
         try {
           reader.read(x);
-        } catch (TerminalException e) {
+        } catch (HandheldException e) {
           throw new RuntimeException(e);
         }
       });
@@ -283,14 +284,14 @@ class TerminalReaderTest {
 
     @Test
     @DisplayName("Should return inner directory")
-    void shouldReturnInnerDirectory() throws TerminalException {
+    void shouldReturnInnerDirectory() throws HandheldException {
       // Given
       List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "dir b", "123 a.txt", "$ cd a",
           "$ ls", "50 b.txt");
       input.forEach(x -> {
         try {
           reader.read(x);
-        } catch (TerminalException e) {
+        } catch (HandheldException e) {
           throw new RuntimeException(e);
         }
       });
@@ -302,14 +303,14 @@ class TerminalReaderTest {
 
     @Test
     @DisplayName("Should return root directory")
-    void shouldReturnRootDirectory() throws TerminalException {
+    void shouldReturnRootDirectory() throws HandheldException {
       // Given
       List<String> input = Arrays.asList("$ cd /", "$ ls", "dir a", "dir b", "123 a.txt", "$ cd a",
           "$ ls", "50 b.txt");
       input.forEach(x -> {
         try {
           reader.read(x);
-        } catch (TerminalException e) {
+        } catch (HandheldException e) {
           throw new RuntimeException(e);
         }
       });
@@ -328,12 +329,12 @@ class TerminalReaderTest {
       input.forEach(x -> {
         try {
           reader.read(x);
-        } catch (TerminalException e) {
+        } catch (HandheldException e) {
           throw new RuntimeException(e);
         }
       });
       // When
-      TerminalException thrown = assertThrows(TerminalException.class,
+      HandheldException thrown = assertThrows(HandheldException.class,
           () -> reader.findSmallestDirectoryAboveSpecificSize(10000L));
       // Then
       assertThat("Exception should be thrown with message", thrown.getMessage(),

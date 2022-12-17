@@ -3,7 +3,7 @@ package dev.jbriggs.aoc.handheld.storage;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-import dev.jbriggs.aoc.handheld.reader.TerminalException;
+import dev.jbriggs.aoc.handheld.HandheldException;
 import java.util.HashSet;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -18,7 +18,7 @@ class TerminalStorageTest {
 
     @Test
     @DisplayName("Should create current directory")
-    public void shouldCreateCurrentDirectory() throws TerminalException {
+    public void shouldCreateCurrentDirectory() throws HandheldException {
       // Given
       TerminalStorage handler = TerminalStorage.builder().build();
       // When
@@ -30,7 +30,7 @@ class TerminalStorageTest {
 
     @Test
     @DisplayName("Should change directory")
-    public void shouldChangeDirectory() throws TerminalException {
+    public void shouldChangeDirectory() throws HandheldException {
       // Given
       TerminalDirectory child = TerminalDirectory.builder().name("/child").build();
       HashSet<TerminalItem> contents = new HashSet<>();
@@ -47,7 +47,7 @@ class TerminalStorageTest {
 
     @Test
     @DisplayName("Should go out one directory")
-    public void shouldGoOutOneDirectory() throws TerminalException {
+    public void shouldGoOutOneDirectory() throws HandheldException {
       // Given
       TerminalDirectory root = TerminalDirectory.builder().name("/parent").build();
       TerminalDirectory child = TerminalDirectory.builder().name("/child").parentDirectory(root).build();

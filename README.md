@@ -1,6 +1,6 @@
 # Advent of Code 2022 - Java / Spring Boot
 
-This project holds all of my solutions of advent of code 2022 written in Java and Spring Boot
+This project holds all of my solutions of advent of code 2022 written in Java and Spring Boot.
 
 | Day | Part 1             | Part 2             |
 |-----|--------------------|--------------------|
