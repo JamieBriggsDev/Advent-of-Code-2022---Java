@@ -97,7 +97,7 @@ public class Device {
 
     public Device build() {
       if (!isNull(this.device.getReader())) {
-        ((TerminalReader) this.device.getReader()).setMemoryRegisterHolder(
+        this.device.getReader().setMemoryRegisterHolder(
             this.device.getMemory());
       }
       return device;

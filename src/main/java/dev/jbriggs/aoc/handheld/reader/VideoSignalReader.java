@@ -10,7 +10,6 @@ import dev.jbriggs.aoc.handheld.storage.TerminalFile;
 import dev.jbriggs.aoc.handheld.storage.TerminalReaderState;
 import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-public class TerminalReader implements Reader {
+public class VideoSignalReader implements Reader {
 
   public static final long TOTAL_DISK_SPACE_AVAILABLE = 70000000L;
 
@@ -35,7 +34,7 @@ public class TerminalReader implements Reader {
   private MemoryRegisterHolder memoryRegisterHolder;
   private List<String> delayedTerminalCommand = new ArrayList<>();
 
-  public TerminalReader() {
+  public VideoSignalReader() {
     this.terminalStorage = new TerminalStorage();
   }
 
@@ -70,8 +69,8 @@ public class TerminalReader implements Reader {
     for (int i = cyclesToComplete - 1; i >= 0; i--) {
       if (i == 0) {
         switch (command) {
-          case CHANGE_DIRECTORY -> handleChangeDirectoryCommand(commandMatcher.group(2));
-          case LIST -> handleListCommand();
+          case ADDX -> handleAddToRegisterCommand(commandMatcher.group(2));
+          case NOOP -> log.debug("Skipping cycle");
           default -> throw new HandheldException("Unknown command, check if this is the correct reader");
         }
       }
@@ -95,19 +94,9 @@ public class TerminalReader implements Reader {
     delayedTerminalCommand = new ArrayList<>();
   }
 
-  private void handleListCommand() {
-    currentState = TerminalReaderState.LISTENING;
+  private void addCommandToExecuteNextList(String command) {
+    this.delayedTerminalCommand.add(command);
   }
-
-  private void handleChangeDirectoryCommand(String directoryName) throws HandheldException {
-    currentState = TerminalReaderState.WRITING;
-    try {
-      terminalStorage.changeDirectory(directoryName);
-    } catch (HandheldException e) {
-      throw new HandheldException("Unable to change directory");
-    }
-  }
-
 
   private void handleAddToRegisterCommand(String stringValue) throws HandheldException {
     if (!isNull(memoryRegisterHolder)) {
@@ -141,20 +130,14 @@ public class TerminalReader implements Reader {
     }
   }
 
-  public Collection<TerminalDirectory> findDirectoriesBelowFileSize(long size) {
-    return terminalStorage.findDirectoriesBelowFileSize(size);
+  public int getRegisterValueDuringCycle(int cycleNumber) {
+    return memoryRegisterHolder.getXRegisterValueAtCycle(cycleNumber-1);
+  }
+  public int getRegisterValueAtEndOfCycle(int cycleNumber) {
+    return memoryRegisterHolder.getXRegisterValueAtCycle(cycleNumber);
   }
 
-  public TerminalDirectory findSmallestDirectoryAboveSpecificSize(long size)
-      throws HandheldException {
-    return terminalStorage.findSmallestDirectoryAboveSpecificSize(size);
-  }
-
-  public String getCurrentDirectoryPath() {
-    return terminalStorage.getCurrentDirectoryPath();
-  }
-
-  public Collection<TerminalDirectory> findAllDirectories() {
-    return terminalStorage.findAllDirectories();
+  public int getSignalStrengthDuringCycle(int cycleNumber) {
+    return cycleNumber * memoryRegisterHolder.getXRegisterValueAtCycle(cycleNumber-1);
   }
 }

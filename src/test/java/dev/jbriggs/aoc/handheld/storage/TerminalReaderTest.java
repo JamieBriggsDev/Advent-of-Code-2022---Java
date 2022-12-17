@@ -208,44 +208,6 @@ class TerminalReaderTest {
   }
 
   @Nested
-  @DisplayName("Add to register 'addx' tests")
-  class AddTests {
-
-    @Test
-    @DisplayName("Should add to register")
-    void shouldAddToRegister() throws HandheldException {
-      // Given
-      String input = "$ addx 1";
-      // When
-      reader.read(input);
-      // Then
-      assertThat("Memory register X should have value 1 at cycle 1", reader.getRegisterValueAtEndOfCycle(1),
-          is(1));
-      assertThat("Memory register X should have value 2 at cycle 2", reader.getRegisterValueAtEndOfCycle(2),
-          is(2));
-    }
-
-    @Test
-    @DisplayName("Should add to register twice")
-    void shouldAddToRegisterTwice() throws HandheldException {
-      // Given
-      List<String> input = Arrays.asList("$ addx 1", "$ addx 2");
-      // When
-      for(String command : input){
-        reader.read(command);
-      }
-      // Then
-      assertThat("Memory register X should have value 1 at cycle 1", reader.getRegisterValueAtEndOfCycle(1),
-          is(1));
-      assertThat("Memory register X should have value 2 at cycle 2", reader.getRegisterValueAtEndOfCycle(2),
-          is(2));
-      assertThat("Memory register X should have value 2 at cycle 3", reader.getRegisterValueAtEndOfCycle(3),
-          is(2));
-      assertThat("Memory register X should have value 4 at cycle 4", reader.getRegisterValueAtEndOfCycle(4),
-          is(4));
-    }
-  }
-  @Nested
   @DisplayName("Get all directories tests")
   class GetAllDirectoriesTests {
 
