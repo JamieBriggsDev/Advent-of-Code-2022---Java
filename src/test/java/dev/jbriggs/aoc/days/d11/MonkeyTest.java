@@ -5,9 +5,11 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@Disabled(value = "Not finished")
 @DisplayName("Monkey test")
 class MonkeyTest {
 

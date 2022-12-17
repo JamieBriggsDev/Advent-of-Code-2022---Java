@@ -3,11 +3,8 @@ package dev.jbriggs.aoc.days.d10;
 import dev.jbriggs.aoc.Day;
 import dev.jbriggs.aoc.handheld.CRTScreen;
 import dev.jbriggs.aoc.handheld.Device;
-import dev.jbriggs.aoc.handheld.HandheldException;
-import dev.jbriggs.aoc.handheld.core.register.MemoryRegisterHolder;
-import dev.jbriggs.aoc.handheld.reader.TerminalReader;
+import dev.jbriggs.aoc.handheld.DeviceException;
 import dev.jbriggs.aoc.handheld.reader.VideoSignalReader;
-import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import java.util.Arrays;
 import java.util.List;
@@ -26,8 +23,8 @@ public class Day10Solution extends Day {
   public Day10Solution(PuzzleInputParser puzzleInputParser,
       @Value("${solutions.day.10.input}") String inputPath) {
     super(DAY_NUMBER, puzzleInputParser, inputPath);
-    this.device = Device.builder().addModule(new CRTScreen())
-        .addModule(new VideoSignalReader()).build();
+    this.device = Device.builder().addMemoryModule(new CRTScreen())
+        .addReaderModule(new VideoSignalReader()).build();
   }
 
   @SneakyThrows
@@ -40,7 +37,7 @@ public class Day10Solution extends Day {
           x -> videoSignalReader.getSignalStrengthDuringCycle(x)).sum();
       return String.valueOf(totalSignalStrength);
     }else {
-      throw new HandheldException("Video signal reader module missing!");
+      throw new DeviceException("Video signal reader module missing!");
     }
   }
 

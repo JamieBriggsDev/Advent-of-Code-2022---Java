@@ -3,7 +3,7 @@ package dev.jbriggs.aoc.handheld.reader;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-import dev.jbriggs.aoc.handheld.HandheldException;
+import dev.jbriggs.aoc.handheld.DeviceException;
 import dev.jbriggs.aoc.handheld.core.register.MemoryRegisterHolder;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +20,7 @@ class VideoSignalReaderTest {
   @BeforeEach
   public void beforeEach() {
     reader = new VideoSignalReader();
-    reader.setMemoryRegisterHolder(new MemoryRegisterHolder());
+    reader.setMemory(new MemoryRegisterHolder());
   }
 
 
@@ -30,7 +30,7 @@ class VideoSignalReaderTest {
 
     @Test
     @DisplayName("Should add to register")
-    void shouldAddToRegister() throws HandheldException {
+    void shouldAddToRegister() throws ReaderException {
       // Given
       String input = "$ addx 1";
       // When
@@ -44,7 +44,7 @@ class VideoSignalReaderTest {
 
     @Test
     @DisplayName("Should add to register twice")
-    void shouldAddToRegisterTwice() throws HandheldException {
+    void shouldAddToRegisterTwice() throws ReaderException {
       // Given
       List<String> input = Arrays.asList("$ addx 1", "$ addx 2");
       // When
@@ -69,7 +69,7 @@ class VideoSignalReaderTest {
 
     @Test
     @DisplayName("Should read register value at end of cycle")
-    void shouldReadSignalCommands() throws HandheldException {
+    void shouldReadSignalCommands() throws ReaderException {
       // Given
       List<String> commands = Arrays.asList("$ noop", "$ addx 3", "$ addx -5");
       // When
@@ -94,7 +94,7 @@ class VideoSignalReaderTest {
 
     @Test
     @DisplayName("Should read register value during cycle")
-    void shouldReadRegisterValueDuringCycle() throws HandheldException {
+    void shouldReadRegisterValueDuringCycle() throws ReaderException {
       // Given
       List<String> commands = Arrays.asList("$ noop", "$ addx 3", "$ addx -5");
       // When

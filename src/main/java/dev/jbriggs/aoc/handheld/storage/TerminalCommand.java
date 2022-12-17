@@ -1,6 +1,7 @@
 package dev.jbriggs.aoc.handheld.storage;
 
-import dev.jbriggs.aoc.handheld.HandheldException;
+import dev.jbriggs.aoc.handheld.DeviceException;
+import dev.jbriggs.aoc.handheld.reader.ReaderException;
 import java.util.Arrays;
 import java.util.Optional;
 import lombok.Getter;
@@ -22,9 +23,9 @@ public enum TerminalCommand {
   }
 
   public static TerminalCommand getByCommand(String command)
-      throws HandheldException {
+      throws ReaderException {
     Optional<TerminalCommand> first = Arrays.stream(values())
         .filter(x -> x.command.equals(command)).findFirst();
-    return first.orElseThrow(() -> new HandheldException("Command could not be found"));
+    return first.orElseThrow(() -> new ReaderException("Command could not be found"));
   }
 }

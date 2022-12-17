@@ -4,8 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import dev.jbriggs.aoc.handheld.Device;
-import dev.jbriggs.aoc.handheld.reader.TerminalReader;
-import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
+import dev.jbriggs.aoc.handheld.reader.MarkerReader;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,13 +14,11 @@ import org.junit.jupiter.api.Test;
 @DisplayName("Day 6 solution test")
 class Day6SolutionTest {
 
-  private Device device;
   private PuzzleInputParser puzzleInputParser;
   private Day6Solution solution;
 
   @BeforeEach
   public void beforeEach() {
-    device = Device.builder().build();
     puzzleInputParser = new PuzzleInputParser();
   }
 

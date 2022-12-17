@@ -2,8 +2,8 @@ package dev.jbriggs.aoc.handheld.reader;
 
 import static java.util.Objects.isNull;
 
-import dev.jbriggs.aoc.handheld.HandheldException;
-import dev.jbriggs.aoc.handheld.core.register.MemoryRegisterHolder;
+import dev.jbriggs.aoc.handheld.DeviceException;
+import dev.jbriggs.aoc.handheld.storage.StorageException;
 import dev.jbriggs.aoc.handheld.storage.TerminalCommand;
 import dev.jbriggs.aoc.handheld.storage.TerminalDirectory;
 import dev.jbriggs.aoc.handheld.storage.TerminalFile;
@@ -15,12 +15,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
-public class TerminalReader implements Reader {
+public class TerminalReader extends MemoryHolder implements Reader {
 
   public static final long TOTAL_DISK_SPACE_AVAILABLE = 70000000L;
 
@@ -31,8 +30,6 @@ public class TerminalReader implements Reader {
   private TerminalReaderState currentState = TerminalReaderState.WRITING;
 
   private final TerminalStorage terminalStorage;
-  @Setter
-  private MemoryRegisterHolder memoryRegisterHolder;
   private List<String> delayedTerminalCommand = new ArrayList<>();
 
   public TerminalReader() {
@@ -47,13 +44,13 @@ public class TerminalReader implements Reader {
     return terminalStorage.getRootTerminalDirectory().getSize();
   }
 
-  public void readAll(List<String> input) throws HandheldException {
+  public void readAll(List<String> input) throws ReaderException {
     for (String s : input) {
       read(s);
     }
   }
 
-  public void read(String input) throws HandheldException {
+  public void read(String input) throws ReaderException {
     String trimmedInput = input.trim();
     Matcher commandMatcher = COMMAND_PATTERN.matcher(trimmedInput);
     if (commandMatcher.matches()) {
@@ -64,7 +61,7 @@ public class TerminalReader implements Reader {
   }
 
   private void performCommand(Matcher commandMatcher, TerminalCommand command,
-      String initialCommand) throws HandheldException {
+      String initialCommand) throws ReaderException {
     Integer cyclesToComplete = command.getCyclesToComplete();
 
     for (int i = cyclesToComplete - 1; i >= 0; i--) {
@@ -72,7 +69,7 @@ public class TerminalReader implements Reader {
         switch (command) {
           case CHANGE_DIRECTORY -> handleChangeDirectoryCommand(commandMatcher.group(2));
           case LIST -> handleListCommand();
-          default -> throw new HandheldException("Unknown command, check if this is the correct reader");
+          default -> throw new ReaderException("Unknown command, check if this is the correct reader");
         }
       }
 
@@ -86,7 +83,7 @@ public class TerminalReader implements Reader {
         case ADDX -> {
           try {
             handleAddToRegisterCommand(commandMatcher.group(2));
-          } catch (HandheldException e) {
+          } catch (ReaderException e) {
             throw new RuntimeException(e);
           }
         }
@@ -99,27 +96,27 @@ public class TerminalReader implements Reader {
     currentState = TerminalReaderState.LISTENING;
   }
 
-  private void handleChangeDirectoryCommand(String directoryName) throws HandheldException {
+  private void handleChangeDirectoryCommand(String directoryName) throws ReaderException {
     currentState = TerminalReaderState.WRITING;
     try {
       terminalStorage.changeDirectory(directoryName);
-    } catch (HandheldException e) {
-      throw new HandheldException("Unable to change directory");
+    } catch (StorageException e) {
+      throw new ReaderException("Unable to change directory");
     }
   }
 
 
-  private void handleAddToRegisterCommand(String stringValue) throws HandheldException {
-    if (!isNull(memoryRegisterHolder)) {
-      memoryRegisterHolder.addToXRegister(Integer.valueOf(stringValue));
+  private void handleAddToRegisterCommand(String stringValue) throws ReaderException {
+    if (!isNull(memory)) {
+      memory.addToXRegister(Integer.valueOf(stringValue));
     } else {
-      throw new HandheldException("Memory register handler module not added!");
+      throw new ReaderException("Memory register handler module not added!");
     }
   }
 
   private void handleCycleIncrement() {
-    if (!isNull(memoryRegisterHolder)) {
-      memoryRegisterHolder.updateRegisterValues();
+    if (!isNull(memory)) {
+      memory.updateRegisterValues();
     }
   }
 
@@ -146,7 +143,7 @@ public class TerminalReader implements Reader {
   }
 
   public TerminalDirectory findSmallestDirectoryAboveSpecificSize(long size)
-      throws HandheldException {
+      throws StorageException {
     return terminalStorage.findSmallestDirectoryAboveSpecificSize(size);
   }
 

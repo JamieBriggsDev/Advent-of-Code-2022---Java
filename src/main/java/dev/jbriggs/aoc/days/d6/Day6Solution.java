@@ -1,12 +1,12 @@
 package dev.jbriggs.aoc.days.d6;
 
+import dev.jbriggs.aoc.AOCException;
 import dev.jbriggs.aoc.Day;
 import dev.jbriggs.aoc.handheld.Device;
-import dev.jbriggs.aoc.handheld.reader.TerminalReader;
-import dev.jbriggs.aoc.handheld.core.register.MemoryRegisterHolder;
-import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
+import dev.jbriggs.aoc.handheld.reader.MarkerReader;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import java.util.List;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,17 +19,27 @@ public class Day6Solution extends Day {
   public Day6Solution(PuzzleInputParser puzzleInputParser,
       @Value("${solutions.day.6.input}") String inputPath) {
     super(DAY_NUMBER, puzzleInputParser, inputPath);
-    this.device = Device.builder().build();
+    this.device = Device.builder().addReaderModule(new MarkerReader()).build();
   }
 
   @Override
+  @SneakyThrows
   protected String partOne(List<String> input) {
-    return String.valueOf(device.findMarkerPosition(input.get(0), 4));
+    device.readTerminalLines(input);
+    if(device.getReader() instanceof MarkerReader markerReader){
+      return String.valueOf(markerReader.findMarkerPosition(4));
+    }
+    throw new AOCException("Device missing MarkerReader module");
   }
 
   @Override
+  @SneakyThrows
   protected String partTwo(List<String> input) {
-    return String.valueOf(device.findMarkerPosition(input.get(0), 14));
+    device.readTerminalLines(input);
+    if(device.getReader() instanceof MarkerReader markerReader){
+      return String.valueOf(device.findMarkerPosition(input.get(0), 14));
+    }
+    throw new AOCException("Device missing MarkerReader module");
   }
 
 

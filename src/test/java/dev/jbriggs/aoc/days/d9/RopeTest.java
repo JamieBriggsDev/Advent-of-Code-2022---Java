@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.is;
 
 import dev.jbriggs.aoc.core.Direction;
 import dev.jbriggs.aoc.core.Vector2;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -453,6 +454,7 @@ class RopeTest {
       }
 
       @Test
+      @Disabled(value = "Not finished")
       @DisplayName("Should trail rope properly 2")
       void shouldTrailRopeProperly2() {
         // Given

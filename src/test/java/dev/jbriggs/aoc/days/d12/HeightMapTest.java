@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.core.Is.is;
 
@@ -56,24 +57,25 @@ class HeightMapTest {
       assertThat("S should have connected node b",
           heightMap.getConnections(heightMap.getItem(0, 0)),
           hasItem(hasProperty("id", is(equalTo("b")))));
-      assertThat("S should have one connection",
+      assertThat("S should have one connections",
           heightMap.getConnections(heightMap.getItem(0, 0)).size(),
           is(1));
       assertThat("b should have connected node c",
           heightMap.getConnections(heightMap.getItem(1, 0)),
-          hasItem(hasProperty("id", is(equalTo("c")))));
-      assertThat("b should have one connection",
+          hasItems(hasProperty("id", is(equalTo("c"))),
+              hasProperty("id", is(equalTo("S")))));
+      assertThat("b should have two connections",
           heightMap.getConnections(heightMap.getItem(1, 0)).size(),
-          is(1));
+          is(2));
       assertThat("c should have connected node E",
           heightMap.getConnections(heightMap.getItem(1, 1)),
           hasItem(hasProperty("id", is(equalTo("E")))));
-      assertThat("c should have one connection",
+      assertThat("c should have two connections",
           heightMap.getConnections(heightMap.getItem(1, 1)).size(),
-          is(1));
-      assertThat("E should have zero connection",
+          is(2));
+      assertThat("E should have two connections",
           heightMap.getConnections(heightMap.getItem(1, 2)).size(),
-          is(0));
+          is(2));
     }
 
     @Test
@@ -88,7 +90,7 @@ class HeightMapTest {
       assertThat("Length should be 2", heightMap.getLength(), Matchers.is(2));
       assertThat("Start point should be S",
           heightMap.getStartPoint(),
-          hasProperty("id", is(equalTo("S"))));
+          hasItem(hasProperty("id", is(equalTo("S")))));
       assertThat("End point should be E",
           heightMap.getEndPoint(),
           hasProperty("id", is(equalTo("E"))));

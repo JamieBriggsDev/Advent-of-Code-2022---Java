@@ -2,7 +2,8 @@ package dev.jbriggs.aoc.handheld.storage;
 
 import static java.util.Objects.isNull;
 
-import dev.jbriggs.aoc.handheld.HandheldException;
+import dev.jbriggs.aoc.handheld.DeviceException;
+import dev.jbriggs.aoc.handheld.reader.ReaderException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,7 +38,7 @@ public class TerminalStorage {
   }
 
 
-  public void changeDirectory(String directoryName) throws HandheldException {
+  public void changeDirectory(String directoryName) throws StorageException {
     if (directoryName.equals("..")) {
       updateCurrentDirectory(currentTerminalDirectory.getParentDirectory());
     } else if (!isNull(currentTerminalDirectory) && directoryName.equals("/")) {
@@ -53,7 +54,7 @@ public class TerminalStorage {
         if (directory.isPresent()) {
           updateCurrentDirectory(directory.get());
         } else {
-          throw new HandheldException("Directory not found yet - " + directoryName);
+          throw new StorageException("Directory not found yet - " + directoryName);
         }
       }
     }
@@ -97,7 +98,7 @@ public class TerminalStorage {
   }
 
   public TerminalDirectory findSmallestDirectoryAboveSpecificSize(Long size)
-      throws HandheldException {
+      throws StorageException {
     List<TerminalDirectory> directoriesBelowFileSize = new ArrayList<>(findAllDirectories());
     Comparator<TerminalDirectory> comparator = Comparator.comparing(TerminalDirectory::getSize);
     Collections.sort(directoriesBelowFileSize, comparator);
@@ -106,7 +107,7 @@ public class TerminalStorage {
     if (first.isPresent()) {
       return first.get();
     } else {
-      throw new HandheldException("No directories found above size " + size);
+      throw new StorageException("No directories found above size " + size);
     }
   }
 

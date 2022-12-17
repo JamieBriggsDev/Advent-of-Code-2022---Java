@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
 import dev.jbriggs.aoc.core.Operator;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -92,7 +93,7 @@ class MonkeyOperationTest {
         // When
         Long result = operation.perform(2L);
         // Then
-        assertThat("Result should be 4", result, is(4));
+        assertThat("Result should be 4", result, is(4L));
       }
 
       @Test
@@ -103,7 +104,7 @@ class MonkeyOperationTest {
         // When
         Long result = operation.perform(10L);
         // Then
-        assertThat("Result should be 8", result, is(8));
+        assertThat("Result should be 8", result, is(8L));
       }
 
       @Test
@@ -114,7 +115,7 @@ class MonkeyOperationTest {
         // When
         Long result = operation.perform(10L);
         // Then
-        assertThat("Result should be 30", result, is(30));
+        assertThat("Result should be 30", result, is(30L));
       }
 
       @Test
@@ -125,7 +126,7 @@ class MonkeyOperationTest {
         // When
         Long result = operation.perform(10L);
         // Then
-        assertThat("Result should be 3", result, is(3));
+        assertThat("Result should be 3", result, is(3L));
       }
 
       @Test
@@ -136,7 +137,7 @@ class MonkeyOperationTest {
         // When
         Long result = operation.perform(5L);
         // Then
-        assertThat("Result should be 1", result, is(1));
+        assertThat("Result should be 1", result, is(1L));
       }
     }
 
@@ -151,7 +152,7 @@ class MonkeyOperationTest {
         // When
         Long result = operation.perform(3L);
         // Then
-        assertThat("Result should be 6", result, is(6));
+        assertThat("Result should be 6", result, is(6L));
       }
 
       @Test
@@ -162,7 +163,7 @@ class MonkeyOperationTest {
         // When
         Long result = operation.perform(5L);
         // Then
-        assertThat("Result should be 0", result, is(0));
+        assertThat("Result should be 0", result, is(0L));
       }
 
       @Test
@@ -173,7 +174,7 @@ class MonkeyOperationTest {
         // When
         Long result = operation.perform(10L);
         // Then
-        assertThat("Result should be 100", result, is(100));
+        assertThat("Result should be 100", result, is(100L));
       }
 
       @Test
@@ -184,7 +185,7 @@ class MonkeyOperationTest {
         // When
         Long result = operation.perform(10L);
         // Then
-        assertThat("Result should be 1", result, is(1));
+        assertThat("Result should be 1", result, is(1L));
       }
 
     }

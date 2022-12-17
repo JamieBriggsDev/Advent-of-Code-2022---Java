@@ -3,11 +3,17 @@ package dev.jbriggs.aoc.handheld;
 import static java.util.Objects.isNull;
 
 import dev.jbriggs.aoc.handheld.core.register.MemoryRegisterHolder;
+import dev.jbriggs.aoc.handheld.reader.MemoryHolder;
 import dev.jbriggs.aoc.handheld.reader.Reader;
-import dev.jbriggs.aoc.handheld.reader.TerminalReader;
+import dev.jbriggs.aoc.handheld.reader.ReaderException;
 import java.util.List;
 
 public class Device {
+
+  public static final int DEFAULT_SCREEN_LENGTH = 40;
+  public static final int DEFAULT_SCREEN_HEIGHT = 6;
+  private MemoryRegisterHolder memory;
+  private Reader reader;
 
   protected Device() {
   }
@@ -16,8 +22,6 @@ public class Device {
     return new Builder();
   }
 
-  private MemoryRegisterHolder memory;
-  private Reader reader;
 
   public Reader getReader() {
     return reader;
@@ -35,11 +39,12 @@ public class Device {
     this.memory = memory;
   }
 
-  public void readTerminalLines(List<String> lines) throws HandheldException {
+  public void readTerminalLines(List<String> lines)
+      throws ReaderException, DeviceException {
     if (!isNull(reader)) {
       reader.readAll(lines);
     } else {
-      throw new HandheldException("Reader module not added!");
+      throw new DeviceException("Reader module not added!");
     }
   }
 
@@ -54,8 +59,7 @@ public class Device {
   }
 
   private static boolean hasUniqueValues(char[] data,
-      int currentCharacterPosition,
-      int markerLength) {
+      int currentCharacterPosition, int markerLength) {
     for (int toCheck = currentCharacterPosition - (markerLength);
         toCheck < currentCharacterPosition; toCheck++) {
       for (int other = toCheck + 1; other < currentCharacterPosition; other++) {
@@ -69,11 +73,11 @@ public class Device {
     return true;
   }
 
-  public String getCurrentScreenDisplay() throws HandheldException {
+  public String getCurrentScreenDisplay() throws DeviceException {
     if (memory instanceof CRTScreen crtScreen) {
-      return crtScreen.printScreen(40, 6, '#', '.');
+      return crtScreen.printScreen(DEFAULT_SCREEN_LENGTH, DEFAULT_SCREEN_HEIGHT, '#', '.');
     } else {
-      throw new HandheldException("Missing CRT Screen module!");
+      throw new DeviceException("Missing CRT Screen module!");
     }
   }
 
@@ -85,20 +89,20 @@ public class Device {
       this.device = new Device();
     }
 
-    public Builder addModule(Reader reader) {
+    public Builder addReaderModule(Reader reader) {
       this.device.setReader(reader);
       return this;
     }
 
-    public Builder addModule(MemoryRegisterHolder memoryRegisterHolder) {
+    public Builder addMemoryModule(MemoryRegisterHolder memoryRegisterHolder) {
       this.device.setMemory(memoryRegisterHolder);
       return this;
     }
 
     public Device build() {
-      if (!isNull(this.device.getReader())) {
-        this.device.getReader().setMemoryRegisterHolder(
-            this.device.getMemory());
+      if (!isNull(this.device.getReader())
+          && this.device.getReader() instanceof MemoryHolder memoryHolder) {
+        memoryHolder.setMemory(this.device.getMemory());
       }
       return device;
     }
