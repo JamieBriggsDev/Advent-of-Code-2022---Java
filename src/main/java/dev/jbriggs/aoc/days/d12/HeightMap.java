@@ -7,7 +7,7 @@ import dev.jbriggs.aoc.core.Vector2;
 import dev.jbriggs.aoc.pathfinding.Graph;
 import dev.jbriggs.aoc.pathfinding.GraphNode;
 import dev.jbriggs.aoc.pathfinding.PathFindingException;
-import dev.jbriggs.aoc.pathfinding.RouteFinder;
+import dev.jbriggs.aoc.pathfinding.route.AStarRouteFinder;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -90,7 +90,7 @@ public class HeightMap extends Graph<MountainNode> {
   }
 
   public List<GraphNode> getShortestPath() {
-    RouteFinder<MountainNode> finder = new RouteFinder<>(this,
+    AStarRouteFinder<MountainNode> finder = new AStarRouteFinder<>(this,
         new HeuristicScorer(), new HeuristicScorer());
     List<List<GraphNode>> shortestPaths = new ArrayList<>();
     startPoint.forEach(sp -> {

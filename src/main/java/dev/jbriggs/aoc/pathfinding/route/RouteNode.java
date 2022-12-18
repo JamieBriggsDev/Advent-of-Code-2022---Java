@@ -1,6 +1,7 @@
-package dev.jbriggs.aoc.pathfinding;
+package dev.jbriggs.aoc.pathfinding.route;
 
 import com.google.common.base.Objects;
+import dev.jbriggs.aoc.pathfinding.GraphNode;
 import lombok.Getter;
 import lombok.Setter;
 

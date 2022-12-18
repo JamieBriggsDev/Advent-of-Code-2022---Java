@@ -1,5 +1,9 @@
-package dev.jbriggs.aoc.pathfinding;
+package dev.jbriggs.aoc.pathfinding.route;
 
+import dev.jbriggs.aoc.pathfinding.Graph;
+import dev.jbriggs.aoc.pathfinding.GraphNode;
+import dev.jbriggs.aoc.pathfinding.PathFindingException;
+import dev.jbriggs.aoc.pathfinding.Scorer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,13 +15,13 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class RouteFinder<T extends GraphNode> {
+public class AStarRouteFinder<T extends GraphNode> {
 
   private final Graph<T> graph;
   private final Scorer<T> nextNodeScorer;
   private final Scorer<T> targetScorer;
 
-  public List<T> findRoute(T from, T to) throws PathFindingException{
+  public List<T> findRoute(T from, T to) throws PathFindingException {
     Queue<RouteNode<T>> openSet = new PriorityQueue<>();
     Map<T, RouteNode<T>> allNodes = new HashMap<>();
 
