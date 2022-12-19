@@ -13,8 +13,12 @@ public class PacketValue extends PacketItem<Integer> implements Comparable<Packe
   public int compareTo(PacketItem<?> o) {
     if(o instanceof PacketValue packetValue){
       return packetValue.item.compareTo(this.item);
+    }else if(o instanceof PacketCollection packetCollection){
+      PacketCollection collection = new PacketCollection(this);
+      return collection.compareTo(packetCollection);
+    }else{
+      return -1;
     }
-    return 0;
   }
 
   @Override

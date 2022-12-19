@@ -62,6 +62,10 @@ public class PacketCollection extends PacketItem<List<? extends PacketItem<?>>> 
 
   }
 
+  public PacketCollection(PacketValue value) {
+    this("["+value.item+"]");
+  }
+
   @Override
   public int compareTo(PacketItem<?> o) {
     PacketCollection otherCollection;
@@ -95,6 +99,7 @@ public class PacketCollection extends PacketItem<List<? extends PacketItem<?>>> 
     sb.append("[");
     StringJoiner sj = new StringJoiner(",");
     this.item.forEach(x -> sj.add(x.toString()));
+    sb.append(sj);
     sb.append("]");
     return sb.toString();
   }

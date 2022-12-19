@@ -1,10 +1,14 @@
 package dev.jbriggs.aoc.days.d13;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import dev.jbriggs.aoc.Day;
 import dev.jbriggs.aoc.handheld.packet.PacketCollection;
 import dev.jbriggs.aoc.handheld.packet.PacketPair;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 import lombok.SneakyThrows;
@@ -36,8 +40,6 @@ public class Day13Solution extends Day {
     }
     Stream<PacketPair> packetPairStream = pairs.stream()
         .filter(PacketPair::isInRightOrder);
-    List<PacketPair> list = packetPairStream.toList();
-    log.info(list.get(0).toString());
     return packetPairStream.mapToInt(
         PacketPair::getIndex).sum();
   }
@@ -45,7 +47,22 @@ public class Day13Solution extends Day {
   @SneakyThrows
   @Override
   protected Object partTwo(List<String> input) {
-    return "";
+    List<PacketCollection> packetCollections = new ArrayList<>();
+    for(String row : input){
+      if(!isNullOrEmpty(row)){
+        packetCollections.add(new PacketCollection(row));
+      }
+    }
+    PacketCollection dividerA = new PacketCollection("[[2]]");
+    PacketCollection dividerB = new PacketCollection("[[6]]");
+    packetCollections.add(dividerA);
+    packetCollections.add(dividerB);
+    List<PacketCollection> sortedCollection = packetCollections.stream().sorted(
+        Comparator.reverseOrder()).toList();
+    Collections.reverse(packetCollections);
+    int aIndex = sortedCollection.indexOf(dividerA) + 1;
+    int bIndex = sortedCollection.indexOf(dividerB) + 1;
+    return aIndex * bIndex;
   }
 
 
