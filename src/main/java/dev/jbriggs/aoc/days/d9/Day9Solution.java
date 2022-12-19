@@ -2,13 +2,7 @@ package dev.jbriggs.aoc.days.d9;
 
 import dev.jbriggs.aoc.Day;
 import dev.jbriggs.aoc.core.Direction;
-import dev.jbriggs.aoc.core.Vector2;
-import dev.jbriggs.aoc.days.d8.Forest;
-import dev.jbriggs.aoc.days.d8.Tree;
-import dev.jbriggs.aoc.handheld.Device;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
-import dev.jbriggs.aoc.util.VectorPrinter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,7 +27,7 @@ public class Day9Solution extends Day {
 
   @SneakyThrows
   @Override
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     Rope rope = new Rope();
     for (String command : input) {
       Matcher matcher = COMMAND_PATTERN.matcher(command);
@@ -52,7 +46,7 @@ public class Day9Solution extends Day {
 
   @SneakyThrows
   @Override
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     Rope rope = new Rope(10);
     for (String command : input) {
       Matcher matcher = COMMAND_PATTERN.matcher(command);

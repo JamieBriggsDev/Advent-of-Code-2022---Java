@@ -1,11 +1,9 @@
 package dev.jbriggs.aoc.days.d12;
 
 import dev.jbriggs.aoc.Day;
-import dev.jbriggs.aoc.days.d11.KeepAwayGame;
 import dev.jbriggs.aoc.pathfinding.GraphNode;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import dev.jbriggs.aoc.util.VectorPrinter;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.SneakyThrows;
@@ -26,7 +24,7 @@ public class Day12Solution extends Day {
 
   @SneakyThrows
   @Override
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     HeightMap heightMap = new HeightMap(input);
     List<GraphNode> shortestPath = heightMap.getShortestPath();
     log.debug("\n" + VectorPrinter.toString(
@@ -37,7 +35,7 @@ public class Day12Solution extends Day {
 
   @SneakyThrows
   @Override
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     HeightMap heightMap = new HeightMap(input, "a");
     List<GraphNode> shortestPath = heightMap.getShortestPath();
     log.debug("\n" + VectorPrinter.toString(

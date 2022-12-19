@@ -3,7 +3,6 @@ package dev.jbriggs.aoc.days.d4;
 import dev.jbriggs.aoc.Day;
 import dev.jbriggs.aoc.core.Pair;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +22,7 @@ public class Day4Solution extends Day {
   }
 
   @Override
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     List<Pair<TimeSlot>> timeSlotPairs = getTimeSlotPairs(input);
     return String.valueOf(timeSlotPairs.stream().filter(
         x -> timeSlotChecker.doTimeslotsFullyContainTheOther(x.getA(),
@@ -31,7 +30,7 @@ public class Day4Solution extends Day {
   }
 
   @Override
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     List<Pair<TimeSlot>> timeSlotPairs = getTimeSlotPairs(input);
     return String.valueOf(timeSlotPairs.stream().filter(
         x -> timeSlotChecker.doTimeslotsPartiallyContainTheOther(x.getA(),

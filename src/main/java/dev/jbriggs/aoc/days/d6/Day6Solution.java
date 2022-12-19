@@ -24,7 +24,7 @@ public class Day6Solution extends Day {
 
   @Override
   @SneakyThrows
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     device.readTerminalLines(input);
     if(device.getReader() instanceof MarkerReader markerReader){
       return String.valueOf(markerReader.findMarkerPosition(4));
@@ -34,7 +34,7 @@ public class Day6Solution extends Day {
 
   @Override
   @SneakyThrows
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     device.readTerminalLines(input);
     if(device.getReader() instanceof MarkerReader markerReader){
       return String.valueOf(device.findMarkerPosition(input.get(0), 14));

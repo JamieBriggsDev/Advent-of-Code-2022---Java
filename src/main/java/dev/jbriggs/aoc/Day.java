@@ -19,9 +19,9 @@ public abstract class Day {
   private final String[] input;
   private final Integer dayNumber;
 
-  protected abstract String partOne(List<String> input);
+  protected abstract Object partOne(List<String> input);
 
-  protected abstract String partTwo(List<String> input);
+  protected abstract Object partTwo(List<String> input);
 
   public Integer getDayNumber() {
     return this.dayNumber;
@@ -32,11 +32,11 @@ public abstract class Day {
   }
 
   public String partOneAnswer() {
-    return partOne(Arrays.stream(getInput()).toList());
+    return String.valueOf(partOne(Arrays.stream(getInput()).toList()));
   }
 
   public String partTwoAnswer() {
-    return partTwo(Arrays.stream(getInput()).toList());
+    return String.valueOf(partTwo(Arrays.stream(getInput()).toList()));
   }
 
   @Override

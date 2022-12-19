@@ -18,7 +18,7 @@ public class Day2Solution extends Day {
   }
 
   @Override
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     return String.valueOf(input.stream().map(x -> x.split(" ")).mapToLong(
             x -> {
               RPSEnum opponent = RPSEnum.fromPlayerOneCode(x[0]);
@@ -30,7 +30,7 @@ public class Day2Solution extends Day {
   }
 
   @Override
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     return String.valueOf(input.stream().map(x -> x.split(" ")).mapToLong(
             x -> {
               RPSEnum opponent = RPSEnum.fromPlayerOneCode(x[0]);

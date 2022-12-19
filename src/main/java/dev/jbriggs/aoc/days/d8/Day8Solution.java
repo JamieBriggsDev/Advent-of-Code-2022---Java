@@ -2,9 +2,6 @@ package dev.jbriggs.aoc.days.d8;
 
 import dev.jbriggs.aoc.Day;
 import dev.jbriggs.aoc.handheld.Device;
-import dev.jbriggs.aoc.handheld.reader.TerminalReader;
-import dev.jbriggs.aoc.handheld.core.register.MemoryRegisterHolder;
-import dev.jbriggs.aoc.handheld.storage.TerminalStorage;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +24,7 @@ public class Day8Solution extends Day {
   }
 
   @Override
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     int length = input.get(0).length();
     int height = input.size();
     Forest forest = new Forest(length, height);
@@ -52,7 +49,7 @@ public class Day8Solution extends Day {
 
   @SneakyThrows
   @Override
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     int length = input.get(0).length();
     int height = input.size();
     Forest forest = new Forest(length, height);

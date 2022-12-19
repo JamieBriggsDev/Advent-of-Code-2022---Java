@@ -29,7 +29,7 @@ public class Day7Solution extends Day {
 
   @Override
   @SneakyThrows
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     device.readTerminalLines(input);
     Collection<TerminalDirectory> directoriesAboveFileSize = ((TerminalReader) device.getReader()).findDirectoriesBelowFileSize(
         100000L);
@@ -40,7 +40,7 @@ public class Day7Solution extends Day {
 
   @SneakyThrows
   @Override
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     device.readTerminalLines(input);
     Long spaceNeeded = 30000000L;
     Long spaceUsed = ((TerminalReader) device.getReader()).totalSpaceUsed();

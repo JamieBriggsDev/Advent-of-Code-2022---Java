@@ -22,7 +22,7 @@ public class Day5Solution extends Day {
   }
 
   @Override
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     int splitIndex = input.indexOf("");
     List<String> cargo = input.subList(0, splitIndex);
     List<String> commands = input.subList(splitIndex + 1, input.size());
@@ -44,7 +44,7 @@ public class Day5Solution extends Day {
   }
 
   @Override
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     int splitIndex = input.indexOf("");
     List<String> cargo = input.subList(0, splitIndex);
     List<String> commands = input.subList(splitIndex + 1, input.size());

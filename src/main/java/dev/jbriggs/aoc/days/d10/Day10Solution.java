@@ -29,7 +29,7 @@ public class Day10Solution extends Day {
 
   @SneakyThrows
   @Override
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     device.readTerminalLines(input.stream().map(x -> "$ " + x).toList());
     List<Integer> cycles = Arrays.asList(20, 60, 100, 140, 180, 220);
     if (device.getReader() instanceof VideoSignalReader videoSignalReader) {
@@ -43,7 +43,7 @@ public class Day10Solution extends Day {
 
   @SneakyThrows
   @Override
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     device.readTerminalLines(input.stream().map(x -> "$ " + x).toList());
     return "\n" + device.getCurrentScreenDisplay();
   }

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 class PacketValueTest {
 
   @Test
-  @DisplayName("Should return 1 when comparing positive to negative")
+  @DisplayName("Should return -1 when comparing positive to negative")
   void shouldReturn1WhenComparingPositiveToNegative(){
     // Given
     PacketValue a = PacketValue.builder().item(2).build();
@@ -18,7 +18,7 @@ class PacketValueTest {
     // When
     int result = a.compareTo(b);
     // Then
-    assertThat("Result should be 1", result, is(1));
+    assertThat("Result should be -1", result, is(-1));
   }
 
   @Test
@@ -34,7 +34,7 @@ class PacketValueTest {
   }
 
   @Test
-  @DisplayName("Should return -1 when comparing negative to positive")
+  @DisplayName("Should return 1 when comparing negative to positive")
   void shouldReturn0WhenComparingNegatuveToPositive(){
     // Given
     PacketValue a = PacketValue.builder().item(1).build();
@@ -42,6 +42,6 @@ class PacketValueTest {
     // When
     int result = a.compareTo(b);
     // Then
-    assertThat("Result should be -1", result, is(-1));
+    assertThat("Result should be 1", result, is(1));
   }
 }

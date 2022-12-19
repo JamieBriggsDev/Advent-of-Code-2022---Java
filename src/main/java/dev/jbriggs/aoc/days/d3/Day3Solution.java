@@ -18,7 +18,7 @@ public class Day3Solution extends Day {
   }
 
   @Override
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     List<Rucksack> rucksacks = input.stream().map(Rucksack::new).toList();
     Integer sum = 0;
     for(Rucksack rucksack : rucksacks){
@@ -31,7 +31,7 @@ public class Day3Solution extends Day {
   }
 
   @Override
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     List<Rucksack> rucksacks = input.stream().map(Rucksack::new).toList();
     List<RucksackGroup> groups = new ArrayList<>();
     for(int i = 0; i < rucksacks.size(); i += 3){

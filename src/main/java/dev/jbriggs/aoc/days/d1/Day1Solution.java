@@ -21,7 +21,7 @@ public class Day1Solution extends Day {
   }
 
   @Override
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     List<List<String>> split = arrayEmptySplitter.split(input);
     Long total = 0L;
     for (List<String> elfCalories : split) {
@@ -34,7 +34,7 @@ public class Day1Solution extends Day {
   }
 
   @Override
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     List<List<String>> split = arrayEmptySplitter.split(input);
     List<Long> longs = split.stream().map(calorieCounter::countCalories).sorted(Long::compareTo)
         .sorted(Comparator.reverseOrder()).toList();

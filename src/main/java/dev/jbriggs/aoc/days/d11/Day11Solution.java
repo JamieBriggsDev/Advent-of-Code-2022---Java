@@ -1,7 +1,6 @@
 package dev.jbriggs.aoc.days.d11;
 
 import dev.jbriggs.aoc.Day;
-import dev.jbriggs.aoc.handheld.Device;
 import dev.jbriggs.aoc.util.PuzzleInputParser;
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +22,7 @@ public class Day11Solution extends Day {
 
   @SneakyThrows
   @Override
-  protected String partOne(List<String> input) {
+  protected Object partOne(List<String> input) {
     StringBuilder joined = new StringBuilder();
     input.forEach(x -> joined.append(x+"\n"));
     joined.append("\n");
@@ -35,7 +34,7 @@ public class Day11Solution extends Day {
 
   @SneakyThrows
   @Override
-  protected String partTwo(List<String> input) {
+  protected Object partTwo(List<String> input) {
     StringBuilder joined = new StringBuilder();
     input.forEach(x -> joined.append(x+"\n"));
     joined.append("\n");
