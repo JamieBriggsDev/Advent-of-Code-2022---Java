@@ -6,9 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter
+@Setter
 @SuperBuilder
 @EqualsAndHashCode
 @AllArgsConstructor
@@ -17,10 +19,16 @@ public class Vector2 {
   private int x;
   private int y;
 
-  public Vector2(Vector2 other){
+  public Vector2(Vector2 other) {
     this.x = other.x;
     this.y = other.y;
   }
+
+  public void setNewValues(Vector2 other){
+    this.x = other.getX();
+    this.y = other.getY();
+  }
+
   public void move(Direction direction, int places) {
     switch (direction) {
       case UP -> moveUp(places);
@@ -55,5 +63,10 @@ public class Vector2 {
     int xDistance = this.getX() - other.getX();
     int yDistance = this.getY() - other.getY();
     return !(Math.abs(xDistance) > 1 || Math.abs(yDistance) > 1);
+  }
+
+  public double distanceTo(Vector2 other) {
+    return Math.sqrt(Math.pow(this.getX() - other.getX(), 2) + Math.pow(
+        this.getY() - other.getY(), 2));
   }
 }
