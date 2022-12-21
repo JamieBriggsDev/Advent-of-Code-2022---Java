@@ -13,7 +13,7 @@ public class VectorPrinter {
     int yMin = list.stream().mapToInt(Vector2::getY).min().orElse(0);
     int yMax = list.stream().mapToInt(Vector2::getY).max().orElse(0);
     StringBuilder stringBuilder = new StringBuilder();
-    for (int y = yMax; y >= yMin; y--) {
+    for (int y = 0; y <= yMax; y++) {
       for (int x = xMin; x <= xMax; x++) {
         Vector2 o = new Vector2(x, y);
         if(list.contains(o)){

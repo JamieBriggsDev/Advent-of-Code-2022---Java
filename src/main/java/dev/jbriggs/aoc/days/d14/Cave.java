@@ -21,14 +21,14 @@ public class Cave {
         .map(Wall.class::cast).mapToInt(Wall::getLowestPoint).max().orElse(0);
   }
 
-  /**
-   * @return True if sand settles, false if sand false into void
-   */
-  public boolean dropSand() {
+  public boolean dropSand(boolean hasVoid) {
     SandGrain sandGrain = new SandGrain(500, 0);
     boolean isFalling = true;
     while (isFalling) {
-      if (sandGrain.getY() >= lowestYValue) {
+      if (sandGrain.getY() > lowestYValue) {
+        if(!hasVoid){
+          collidableCollection.add(sandGrain);
+        }
         return false;
       }
       // Move down one
@@ -53,5 +53,12 @@ public class Cave {
     }
     collidableCollection.add(sandGrain);
     return true;
+  }
+
+  /**
+   * @return True if sand settles, false if sand false into void
+   */
+  public boolean dropSand() {
+    return dropSand(true);
   }
 }

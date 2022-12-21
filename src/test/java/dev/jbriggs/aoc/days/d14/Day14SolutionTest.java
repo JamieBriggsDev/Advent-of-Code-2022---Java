@@ -32,4 +32,18 @@ class Day14SolutionTest {
       assertThat("Result should be 24", result, is("24"));
     }
   }
+
+  @Nested
+  @DisplayName("Part two tests")
+  class PartTwoTests {
+    @Test
+    @DisplayName("Should return 93 for test input")
+    void shouldReturn93ForTestInput() {
+      // Given
+      // When
+      String result = solution.partTwoAnswer();
+      // Then
+      assertThat("Result should be 93", result, is("93"));
+    }
+  }
 }
